@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "PlaylistQuickAdd (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "PlaylistQuickAdd (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
