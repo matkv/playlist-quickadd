@@ -26,6 +26,8 @@ namespace PlaylistQuickAdd
         public MainWindow()
         {
             this.InitializeComponent();
+            
+            var authorization = new Authorization();
         }
     }
 }
