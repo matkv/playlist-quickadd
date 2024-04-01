@@ -240,5 +240,4 @@ FodyWeavers.xsd
 
 # Local History for Visual Studio
 .localhistory/
-/PlaylistQuickAdd/Config/client-id.txt
-/PlaylistQuickAdd/Config/client-secret.txt
+/PlaylistQuickAdd/Config/config.json
