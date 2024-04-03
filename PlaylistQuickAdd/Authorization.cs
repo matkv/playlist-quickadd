@@ -5,15 +5,9 @@ namespace PlaylistQuickAdd
 {
     internal class Authorization
     {
-        private string _clientId;
-        private string _clientSecret;
+        public Authorization() => LoadConfigFromJSON();
 
-        public Authorization()
-        {
-            LoadConfigFromJSON();
-        }
-
-        private void LoadConfigFromJSON()
+        private static void LoadConfigFromJSON()
         {
             var configPath = Directory.GetCurrentDirectory(); // TODO not getting project root path
             var configurationBuilder = new ConfigurationBuilder();
@@ -23,8 +17,8 @@ namespace PlaylistQuickAdd
 
             var configuration = configurationBuilder.Build();
 
-            _clientId = configuration["ClientId"];
-            _clientSecret = configuration["ClientSecret"];
+            string _clientId = configuration["ClientId"];
+            string _clientSecret = configuration["ClientSecret"];
 
             // print the values to the console
             System.Console.WriteLine($"Client ID: {_clientId}");
