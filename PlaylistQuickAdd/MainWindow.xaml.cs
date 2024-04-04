@@ -27,12 +27,14 @@ namespace PlaylistQuickAdd
         public MainWindow()
         {
             this.InitializeComponent();
+
             _ = ConnectToSpotifyAsync();
         }
 
         private async Task ConnectToSpotifyAsync()
         {
-            var token = await Authorization.GetSpotifyAccessToken();
+            var authorization = new Authorization();
+            var token = await authorization.GetSpotifyAccessToken();
             AccessTokenTextBlock.Text = token;
         }
     }
