@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
@@ -26,8 +27,13 @@ namespace PlaylistQuickAdd
         public MainWindow()
         {
             this.InitializeComponent();
-            
-            var authorization = new Authorization();
+            _ = ConnectToSpotifyAsync();
+        }
+
+        private async Task ConnectToSpotifyAsync()
+        {
+            var token = await Authorization.GetSpotifyAccessToken();
+            AccessTokenTextBlock.Text = token;
         }
     }
 }

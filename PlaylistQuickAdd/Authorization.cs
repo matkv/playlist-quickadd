@@ -1,28 +1,25 @@
 ﻿using Microsoft.Extensions.Configuration;
+using System;
 using System.IO;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace PlaylistQuickAdd
 {
-    internal class Authorization
+    internal static class Authorization
     {
-        public Authorization() => LoadConfigFromJSON();
-
-        private static void LoadConfigFromJSON()
+        public static async Task<string> GetSpotifyAccessToken()
         {
-            var configPath = Directory.GetCurrentDirectory(); // TODO not getting project root path
-            var configurationBuilder = new ConfigurationBuilder();
+            var clientId = Environment.GetEnvironmentVariable("SPOTIFY_CLIENT_ID");
+            var clientSecret = Environment.GetEnvironmentVariable("SPOTIFY_CLIENT_SECRET");
 
-            configurationBuilder.SetBasePath(configPath)
-                .AddJsonFile("/Config/config.json", optional: false, reloadOnChange: true);
+            var url = "https://accounts.spotify.com/api/token";
+            var data = $"grant_type=client_credentials&client_id={clientId}&client_secret={clientSecret}";
 
-            var configuration = configurationBuilder.Build();
-
-            string _clientId = configuration["ClientId"];
-            string _clientSecret = configuration["ClientSecret"];
-
-            // print the values to the console
-            System.Console.WriteLine($"Client ID: {_clientId}");
-            System.Console.WriteLine($"Client Secret: {_clientSecret}");
+            using var client = new HttpClient();
+            var response = await client.PostAsync(url, new StringContent(data, System.Text.Encoding.UTF8, "application/x-www-form-urlencoded"));
+            var responseContent = await response.Content.ReadAsStringAsync();
+            return responseContent;
         }
     }
 }
