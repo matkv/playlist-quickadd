@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using System.Net.Http;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace PlaylistQuickAdd
@@ -22,7 +23,7 @@ namespace PlaylistQuickAdd
             spotifyEndpointURL = configuration.GetSection("SpotifyEndpointURL").Value;
         }
 
-        public async Task<string> GetSpotifyAccessToken()
+        public async Task<SpotifyAccessToken> GetSpotifyAccessToken()
         {
             var clientId = Environment.GetEnvironmentVariable("SPOTIFY_CLIENT_ID");
             var clientSecret = Environment.GetEnvironmentVariable("SPOTIFY_CLIENT_SECRET");
@@ -32,7 +33,23 @@ namespace PlaylistQuickAdd
             using var client = new HttpClient();
             var response = await client.PostAsync(spotifyEndpointURL, new StringContent(data, System.Text.Encoding.UTF8, "application/x-www-form-urlencoded"));
             var responseContent = await response.Content.ReadAsStringAsync();
-            return responseContent;
+
+            // Deserialize the JSON response
+            var accessToken = System.Text.Json.JsonSerializer.Deserialize<SpotifyAccessToken>(responseContent);
+
+            return accessToken;
         }
+    }
+
+    internal class SpotifyAccessToken
+    {
+        [JsonPropertyName("access_token")]
+        public string AccessToken { get; set; }
+
+        [JsonPropertyName("token_type")]
+        public string TokenType { get; set; }
+
+        [JsonPropertyName("expires_in")]
+        public int ExpiresIn { get; set; }
     }
 }
