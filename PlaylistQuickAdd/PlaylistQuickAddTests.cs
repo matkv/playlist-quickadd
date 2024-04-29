@@ -9,7 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace PlaylistQuickAdd
 {
     [TestClass]
-    public class UnitTest1
+    public class PlaylistQuickAddTests
     {
         [TestMethod]
         public async Task GetSpotifyAccessToken_ReturnsAccessToken()
