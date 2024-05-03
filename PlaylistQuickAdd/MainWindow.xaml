@@ -8,8 +8,19 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-        <TextBlock Text="Hello World" FontSize="40"/>
-        <TextBlock x:Name="AccessTokenTextBlock" FontSize="20"/>
-    </StackPanel>
+    <StackPanel>
+    <Grid>
+        <GridView ItemsSource="{x:Bind Playlists, Mode=OneWay}">
+            <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="local:Playlist">
+                        <StackPanel Orientation="Vertical">
+                        <Image Source="{x:Bind PlaylistCover}" Width="100" Height="100" />
+                        <TextBlock Text="{x:Bind Title, Mode=OneWay}" />
+                    </StackPanel>
+                </DataTemplate>
+            </GridView.ItemTemplate>
+        </GridView>
+    </Grid>
+    <TextBlock x:Name="AccessTokenTextBlock" FontSize="20"/> 
+</StackPanel>
 </Window>

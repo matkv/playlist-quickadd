@@ -7,6 +7,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -24,11 +25,17 @@ namespace PlaylistQuickAdd
     /// </summary>
     public sealed partial class MainWindow : Window
     {
+        public ObservableCollection<Playlist> Playlists { get; } = new ObservableCollection<Playlist>();
+
         public MainWindow()
         {
             this.InitializeComponent();
 
             _ = ConnectToSpotifyAsync();
+
+            Playlists.Add(new Playlist("Playlist 1"));
+            Playlists.Add(new Playlist("Playlist 2"));
+            Playlists.Add(new Playlist("Playlist 3"));
         }
 
         private async Task ConnectToSpotifyAsync()
@@ -37,5 +44,6 @@ namespace PlaylistQuickAdd
             var token = await authorization.GetSpotifyAccessToken();
             AccessTokenTextBlock.Text = token.AccessToken;
         }
+
     }
 }
