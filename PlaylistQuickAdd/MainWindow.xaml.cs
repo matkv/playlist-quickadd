@@ -25,17 +25,23 @@ namespace PlaylistQuickAdd
     /// </summary>
     public sealed partial class MainWindow : Window
     {
-        public ObservableCollection<Playlist> Playlists { get; } = new ObservableCollection<Playlist>();
+        public ObservableCollection<Playlist> Playlists { get; set; }
 
         public MainWindow()
         {
             this.InitializeComponent();
-
             _ = ConnectToSpotifyAsync();
+            CreateSamplePlaylists();
+        }
 
-            Playlists.Add(new Playlist("Playlist 1"));
-            Playlists.Add(new Playlist("Playlist 2"));
-            Playlists.Add(new Playlist("Playlist 3"));
+        private void CreateSamplePlaylists()
+        {
+            Playlists =
+            [
+                new Playlist("Playlist 1"),
+                new Playlist("Playlist 2"),
+                new Playlist("Playlist 3"),
+            ];
         }
 
         private async Task ConnectToSpotifyAsync()
@@ -44,6 +50,5 @@ namespace PlaylistQuickAdd
             var token = await authorization.GetSpotifyAccessToken();
             AccessTokenTextBlock.Text = token.AccessToken;
         }
-
     }
 }
