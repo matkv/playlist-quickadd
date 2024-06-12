@@ -9,18 +9,19 @@
     mc:Ignorable="d">
 
     <StackPanel>
-    <Grid>
-        <GridView ItemsSource="{x:Bind Playlists, Mode=OneWay}">
-            <GridView.ItemTemplate>
+        <Grid>
+            <GridView ItemsSource="{x:Bind Playlists, Mode=OneWay}">
+                <GridView.ItemTemplate>
                     <DataTemplate x:DataType="local:Playlist">
                         <StackPanel Orientation="Vertical">
-                        <Image Source="{x:Bind PlaylistCover}" Width="100" Height="100" />
-                        <TextBlock Text="{x:Bind Title, Mode=OneWay}" />
-                    </StackPanel>
-                </DataTemplate>
-            </GridView.ItemTemplate>
-        </GridView>
-    </Grid>
-    <TextBlock x:Name="AccessTokenTextBlock" FontSize="20"/> 
-</StackPanel>
+                            <Image Source="{x:Bind PlaylistCover}" Width="100" Height="100" />
+                            <TextBlock Text="{x:Bind Title, Mode=OneWay}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+        </Grid>
+        <TextBlock x:Name="AccessTokenTextBlock" FontSize="20"/>
+        <Button Content="Login" Click="LoginSpotify" />
+    </StackPanel>
 </Window>

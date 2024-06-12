@@ -30,7 +30,6 @@ namespace PlaylistQuickAdd
         public MainWindow()
         {
             this.InitializeComponent();
-            _ = ConnectToSpotifyAsync();
             CreateSamplePlaylists();
         }
 
@@ -49,6 +48,13 @@ namespace PlaylistQuickAdd
             var authorization = new Authorization();
             var token = await authorization.GetSpotifyAccessToken();
             AccessTokenTextBlock.Text = token.AccessToken;
+
+            await authorization.Login();
+        }
+
+        private void LoginSpotify(object sender, RoutedEventArgs e)
+        {
+            _ = ConnectToSpotifyAsync();
         }
     }
 }

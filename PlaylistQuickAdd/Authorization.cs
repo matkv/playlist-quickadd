@@ -4,6 +4,7 @@ using System.IO;
 using System.Net.Http;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Windows.System;
 
 namespace PlaylistQuickAdd
 {
@@ -38,6 +39,20 @@ namespace PlaylistQuickAdd
             var accessToken = System.Text.Json.JsonSerializer.Deserialize<SpotifyAccessToken>(responseContent);
 
             return accessToken;
+        }
+
+        public async Task Login()
+        {
+            using var client = new HttpClient();
+
+            var clientId = Environment.GetEnvironmentVariable("SPOTIFY_CLIENT_ID");
+            var redirectUri = "http://localhost:3000"; 
+            var state = Guid.NewGuid().ToString();
+            var scope = "user-read-private user-read-email";
+
+            var response = await client.GetAsync($"https://accounts.spotify.com/authorize?client_id={clientId}&response_type=code&redirect_uri={redirectUri}&scope={scope}&state={state}");
+
+            await Launcher.LaunchUriAsync(new Uri(response.RequestMessage.RequestUri.ToString()));
         }
     }
 
