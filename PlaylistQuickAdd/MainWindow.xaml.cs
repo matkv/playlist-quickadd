@@ -46,7 +46,7 @@ namespace PlaylistQuickAdd
 
             if (args.IsSettingsInvoked)
             {
-                //NavView_Navigate(typeof(Settings), args.RecommendedNavigationTransitionInfo);
+                NavView_Navigate(typeof(SettingsPage), args.RecommendedNavigationTransitionInfo);
             }
             else if (args.InvokedItemContainer != null)
             {
@@ -59,13 +59,13 @@ namespace PlaylistQuickAdd
         {
             NavView.IsBackEnabled = ContentFrame.CanGoBack;
 
-            //if (ContentFrame.SourcePageType == typeof(Settings))
-            //{
-            //    // SettingsItem is not part of NavView.MenuItems, and doesn't have a Tag.
-            //    NavView.SelectedItem = (NavigationViewItem)NavView.SettingsItem;
-            //    NavView.Header = "Settings";
-            //}
-            if (ContentFrame.SourcePageType != null)
+            if (ContentFrame.SourcePageType == typeof(SettingsPage))
+            {
+                // SettingsItem is not part of NavView.MenuItems, and doesn't have a Tag.
+                NavView.SelectedItem = (NavigationViewItem)NavView.SettingsItem;
+                NavView.Header = "Settings";
+            }
+            else if (ContentFrame.SourcePageType != null)
             {
                 // Select the nav view item that corresponds to the page being navigated to.
                 NavView.SelectedItem = NavView.MenuItems
