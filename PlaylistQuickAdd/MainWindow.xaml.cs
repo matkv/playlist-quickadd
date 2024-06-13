@@ -30,7 +30,7 @@ namespace PlaylistQuickAdd
         public MainWindow()
         {
             this.InitializeComponent();
-            CreateSamplePlaylists();
+            CreateSamplePlaylists(); //Test change for checking git config
         }
 
         private void CreateSamplePlaylists()
