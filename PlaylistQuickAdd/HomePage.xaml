@@ -6,17 +6,17 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="using:PlaylistQuickAdd"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    mc:Ignorable="d" >
 
-    <StackPanel>
+    <StackPanel Spacing="10">
+        <TextBlock>Hello this is the homepage.</TextBlock>
         <Grid>
             <GridView ItemsSource="{x:Bind Playlists, Mode=OneWay}">
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="local:Playlist">
                         <StackPanel Orientation="Vertical">
-                            <Image Source="{x:Bind PlaylistCover}" Width="100" Height="100" />
-                            <TextBlock Text="{x:Bind Title, Mode=OneWay}" />
+                            <Image Source="{x:Bind PlaylistCover}" Width="150" Height="125" />
+                            <TextBlock Text="{x:Bind Title, Mode=OneWay}" FontWeight="Bold" Padding="5" />
                         </StackPanel>
                     </DataTemplate>
                 </GridView.ItemTemplate>

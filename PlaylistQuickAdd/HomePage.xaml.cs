@@ -1,5 +1,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Imaging;
+using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
@@ -29,6 +31,21 @@ namespace PlaylistQuickAdd
                 new Playlist("Playlist 2"),
                 new Playlist("Playlist 3"),
             ];
+
+            TempSetImagesForPlaylists();
+        }
+
+        private void TempSetImagesForPlaylists()
+        {
+            foreach (var playlist in Playlists)
+            {
+                var image = new Image
+                {
+                    Source = new BitmapImage(new Uri("ms-appx:///Assets/Square150x150Logo.scale-200.png"))
+                };
+
+                playlist.PlaylistCover = image.Source;
+            }
         }
 
         private void LoginSpotify(object sender, RoutedEventArgs e)

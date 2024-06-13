@@ -8,18 +8,25 @@
     mc:Ignorable="d"
     Title="Playlist QuickAdd">
 
+    <Window.SystemBackdrop>
+        <DesktopAcrylicBackdrop/>
+    </Window.SystemBackdrop>
+
     <Grid>
         <NavigationView x:Name="NavView"
                      Loaded="NavView_Loaded"
                      ItemInvoked="NavView_ItemInvoked"
-                        PaneTitle="Playlist QuickAdd">
+                        IsBackEnabled="False"
+                        IsBackButtonVisible="Collapsed"
+                        PaneTitle="Playlist QuickAdd"
+                        Background="Transparent">
             <NavigationView.MenuItems>
-                <NavigationViewItem Tag="PlaylistQuickAdd.HomePage" Content="HomePage" Icon="Home" />
-                <NavigationViewItem Tag="PlaylistQuickAdd.PlaylistsPage" Content="PlaylistsPage" Icon="MusicInfo" />
+                <NavigationViewItem Tag="PlaylistQuickAdd.HomePage" Content="Home" Icon="Home" />
+                <NavigationViewItem Tag="PlaylistQuickAdd.PlaylistsPage" Content="Playlists" Icon="MusicInfo" />
             </NavigationView.MenuItems>
 
             <ScrollViewer>
-                <Frame x:Name="ContentFrame" IsTabStop="True"/>
+                <Frame x:Name="ContentFrame" IsTabStop="True"  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="15"/>
             </ScrollViewer>
         </NavigationView>
     </Grid>

@@ -1,9 +1,15 @@
+using Microsoft.UI;
+using Microsoft.UI.Composition.SystemBackdrops;
+using Microsoft.UI.Windowing;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Linq;
+using Windows.Security.Cryptography.Core;
+using WinRT.Interop;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -18,6 +24,18 @@ namespace PlaylistQuickAdd
         public MainWindow()
         {
             this.InitializeComponent();
+            SetupUI();
+        }
+
+        private void SetupUI()
+        {
+            SetupAcrylicBackground();
+            this.AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+        }
+
+        private void SetupAcrylicBackground()
+        {
+            this.SystemBackdrop = new DesktopAcrylicBackdrop();
         }
 
         private void NavView_Loaded(object sender, RoutedEventArgs e)
