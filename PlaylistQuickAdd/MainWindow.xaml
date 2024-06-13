@@ -8,6 +8,12 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
+    <NavigationView PaneTitle="Playlist Quickadd" IsBackButtonVisible="Collapsed">
+        <NavigationView.MenuItems>
+        <NavigationViewItem Content="Home" Icon="Home" />
+        <NavigationViewItem Content="Playlists" Icon="MusicInfo" />
+        </NavigationView.MenuItems>
+
     <StackPanel>
         <Grid>
             <GridView ItemsSource="{x:Bind Playlists, Mode=OneWay}">
@@ -24,4 +30,7 @@
         <TextBlock x:Name="AccessTokenTextBlock" FontSize="20"/>
         <Button Content="Login" Click="LoginSpotify" />
     </StackPanel>
+    </NavigationView>
+    
+    
 </Window>
