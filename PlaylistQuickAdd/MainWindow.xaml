@@ -8,29 +8,19 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <NavigationView PaneTitle="Playlist Quickadd" IsBackButtonVisible="Collapsed">
-        <NavigationView.MenuItems>
-        <NavigationViewItem Content="Home" Icon="Home" />
-        <NavigationViewItem Content="Playlists" Icon="MusicInfo" />
-        </NavigationView.MenuItems>
+    <Grid>
+        <NavigationView x:Name="NavView"
+                     Loaded="NavView_Loaded"
+                     ItemInvoked="NavView_ItemInvoked"
+                        PaneTitle="Playlist QuickAdd">
+            <NavigationView.MenuItems>
+                <NavigationViewItem Tag="PlaylistQuickAdd.HomePage" Content="HomePage" Icon="Home" />
+                <NavigationViewItem Tag="PlaylistQuickAdd.PlaylistsPage" Content="PlaylistsPage" Icon="MusicInfo" />
+            </NavigationView.MenuItems>
 
-    <StackPanel>
-        <Grid>
-            <GridView ItemsSource="{x:Bind Playlists, Mode=OneWay}">
-                <GridView.ItemTemplate>
-                    <DataTemplate x:DataType="local:Playlist">
-                        <StackPanel Orientation="Vertical">
-                            <Image Source="{x:Bind PlaylistCover}" Width="100" Height="100" />
-                            <TextBlock Text="{x:Bind Title, Mode=OneWay}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </GridView.ItemTemplate>
-            </GridView>
-        </Grid>
-        <TextBlock x:Name="AccessTokenTextBlock" FontSize="20"/>
-        <Button Content="Login" Click="LoginSpotify" />
-    </StackPanel>
-    </NavigationView>
-    
-    
+            <ScrollViewer>
+                <Frame x:Name="ContentFrame" IsTabStop="True"/>
+            </ScrollViewer>
+        </NavigationView>
+    </Grid>
 </Window>

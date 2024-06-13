@@ -4,6 +4,7 @@ using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 using System;
 using System.Collections.Generic;
@@ -25,36 +26,70 @@ namespace PlaylistQuickAdd
     /// </summary>
     public sealed partial class MainWindow : Window
     {
-        public ObservableCollection<Playlist> Playlists { get; set; }
-
         public MainWindow()
         {
             this.InitializeComponent();
-            CreateSamplePlaylists(); //Test change for checking git config
         }
 
-        private void CreateSamplePlaylists()
+
+
+        private void NavView_Loaded(object sender, RoutedEventArgs e)
         {
-            Playlists =
-            [
-                new Playlist("Playlist 1"),
-                new Playlist("Playlist 2"),
-                new Playlist("Playlist 3"),
-            ];
+            ContentFrame.Navigated += On_Navigated;
+            NavView.SelectedItem = NavView.MenuItems[0];
+
+            NavView_Navigate(typeof(HomePage), new EntranceNavigationTransitionInfo());
         }
 
-        private async Task ConnectToSpotifyAsync()
+        private void NavView_Navigate(
+            Type navPageType,
+            NavigationTransitionInfo transitionInfo)
         {
-            var authorization = new Authorization();
-            var token = await authorization.GetSpotifyAccessToken();
-            AccessTokenTextBlock.Text = token.AccessToken;
+            Type preNavPageType = ContentFrame.CurrentSourcePageType;
 
-            await authorization.Login();
+            // Only navigate if the selected page isn't currently loaded.
+            if (navPageType is not null && !Type.Equals(preNavPageType, navPageType))
+            {
+                ContentFrame.Navigate(navPageType, null, transitionInfo);
+            }
         }
 
-        private void LoginSpotify(object sender, RoutedEventArgs e)
+        private void NavView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
-            _ = ConnectToSpotifyAsync();
+
+            if (args.IsSettingsInvoked)
+            {
+                //NavView_Navigate(typeof(Settings), args.RecommendedNavigationTransitionInfo);
+            }
+            else if (args.InvokedItemContainer != null)
+            {
+                Type navPageType = Type.GetType(args.InvokedItemContainer.Tag.ToString());
+                NavView_Navigate(navPageType, args.RecommendedNavigationTransitionInfo);
+            }
         }
+
+        private void On_Navigated(object sender, NavigationEventArgs e)
+        {
+            NavView.IsBackEnabled = ContentFrame.CanGoBack;
+
+            //if (ContentFrame.SourcePageType == typeof(Settings))
+            //{
+            //    // SettingsItem is not part of NavView.MenuItems, and doesn't have a Tag.
+            //    NavView.SelectedItem = (NavigationViewItem)NavView.SettingsItem;
+            //    NavView.Header = "Settings";
+            //}
+            if (ContentFrame.SourcePageType != null)
+            {
+                // Select the nav view item that corresponds to the page being navigated to.
+                NavView.SelectedItem = NavView.MenuItems
+                            .OfType<NavigationViewItem>()
+                            .First(i => i.Tag.Equals(ContentFrame.SourcePageType.FullName.ToString()));
+
+                NavView.Header =
+                    ((NavigationViewItem)NavView.SelectedItem)?.Content?.ToString();
+
+            }
+        }
+
     }
 }
