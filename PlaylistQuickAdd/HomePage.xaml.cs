@@ -30,6 +30,11 @@ namespace PlaylistQuickAdd
                 new Playlist("Playlist 1"),
                 new Playlist("Playlist 2"),
                 new Playlist("Playlist 3"),
+                new Playlist("Playlist 4"),
+                new Playlist("Playlist 5"),
+                new Playlist("Playlist 6"),
+                new Playlist("Playlist 7"),
+                new Playlist("Playlist 8"),
             ];
 
             TempSetImagesForPlaylists();

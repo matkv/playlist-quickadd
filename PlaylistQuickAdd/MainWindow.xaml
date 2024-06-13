@@ -12,7 +12,7 @@
         <DesktopAcrylicBackdrop/>
     </Window.SystemBackdrop>
 
-    <Grid>
+    <Page>
         <NavigationView x:Name="NavView"
                      Loaded="NavView_Loaded"
                      ItemInvoked="NavView_ItemInvoked"
@@ -25,9 +25,9 @@
                 <NavigationViewItem Tag="PlaylistQuickAdd.PlaylistsPage" Content="Playlists" Icon="MusicInfo" />
             </NavigationView.MenuItems>
 
-            <ScrollViewer>
+            <ScrollViewer >
                 <Frame x:Name="ContentFrame" IsTabStop="True"  Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="15"/>
             </ScrollViewer>
         </NavigationView>
-    </Grid>
+    </Page>
 </Window>

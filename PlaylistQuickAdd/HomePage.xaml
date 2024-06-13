@@ -6,7 +6,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="using:PlaylistQuickAdd"
-    mc:Ignorable="d" >
+    mc:Ignorable="d">
 
     <StackPanel Spacing="10">
         <TextBlock>Hello this is the homepage.</TextBlock>
@@ -22,7 +22,7 @@
                 </GridView.ItemTemplate>
             </GridView>
         </Grid>
-        <TextBlock x:Name="AccessTokenTextBlock" FontSize="20"/>
         <Button Content="Login" Click="LoginSpotify" />
+        <TextBlock x:Name="AccessTokenTextBlock" FontSize="20"/>
     </StackPanel>
 </Page>
