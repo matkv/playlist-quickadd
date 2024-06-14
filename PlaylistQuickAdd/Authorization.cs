@@ -105,6 +105,16 @@ namespace PlaylistQuickAdd
             listener.Stop();
             return code;
         }
+
+        public async Task<string> GetSpotifyUser(string accessToken)
+        {
+            using var client = new HttpClient();
+
+            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
+            var response = await client.GetAsync("https://api.spotify.com/v1/me");
+            var responseContent = await response.Content.ReadAsStringAsync();
+            return responseContent;
+        }
     }
 
     internal class SpotifyAccessToken
