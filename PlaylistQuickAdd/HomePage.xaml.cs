@@ -61,15 +61,15 @@ namespace PlaylistQuickAdd
         private async Task ConnectToSpotifyAsync()
         {
             var authorization = new Authorization();
-            var token = await authorization.GetSpotifyAccessToken();
+            var token = await authorization.GetSpotifyAccessTokenForClient();
             AccessTokenTextBlock.Text = token.AccessToken;
 
             string authorizationCode = await Authorization.Login();
 
             if (authorizationCode != null)
             {
-                //var accessToken = await authorization.GetAccessToken();
-                //AccessTokenTextBlock.Text = accessToken.AccessToken;
+                var accessTokenForUser = await authorization.GetSpotifyAccessTokenForUser(authorizationCode, token.AccessToken);
+                AccessTokenUserTextBlock.Text = accessTokenForUser.AccessToken;
             }
         }
     }

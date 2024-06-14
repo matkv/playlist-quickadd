@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -28,7 +29,7 @@ namespace PlaylistQuickAdd
             spotifyEndpointURL = configuration.GetSection("SpotifyEndpointURL").Value;
         }
 
-        public async Task<SpotifyAccessToken> GetSpotifyAccessToken()
+        public async Task<SpotifyAccessToken> GetSpotifyAccessTokenForClient()
         {
             var clientId = Environment.GetEnvironmentVariable("SPOTIFY_CLIENT_ID");
             var clientSecret = Environment.GetEnvironmentVariable("SPOTIFY_CLIENT_SECRET");
@@ -36,6 +37,24 @@ namespace PlaylistQuickAdd
             var data = $"grant_type=client_credentials&client_id={clientId}&client_secret={clientSecret}";
 
             using var client = new HttpClient();
+            var response = await client.PostAsync(spotifyEndpointURL, new StringContent(data, System.Text.Encoding.UTF8, "application/x-www-form-urlencoded"));
+            var responseContent = await response.Content.ReadAsStringAsync();
+
+            return JsonSerializer.Deserialize<SpotifyAccessToken>(responseContent);
+        }
+
+        public async Task<SpotifyAccessToken> GetSpotifyAccessTokenForUser(string authorizationCode, string clientToken)
+        {
+            var clientId = Environment.GetEnvironmentVariable("SPOTIFY_CLIENT_ID");
+            var clientSecret = Environment.GetEnvironmentVariable("SPOTIFY_CLIENT_SECRET");
+            var clientsecret64 = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{clientId}:{clientSecret}"));
+
+
+            var data = $"grant_type=authorization_code&code={authorizationCode}&redirect_uri={redirectUri}";
+
+
+            using var client = new HttpClient();
+            client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", clientsecret64);
             var response = await client.PostAsync(spotifyEndpointURL, new StringContent(data, System.Text.Encoding.UTF8, "application/x-www-form-urlencoded"));
             var responseContent = await response.Content.ReadAsStringAsync();
 
