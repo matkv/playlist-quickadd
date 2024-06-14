@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Web;
@@ -13,6 +14,7 @@ namespace PlaylistQuickAdd
     internal class Authorization
     {
         private readonly string spotifyEndpointURL;
+        private const string redirectUri = "http://localhost:3000";
 
         public Authorization()
         {
@@ -37,18 +39,12 @@ namespace PlaylistQuickAdd
             var response = await client.PostAsync(spotifyEndpointURL, new StringContent(data, System.Text.Encoding.UTF8, "application/x-www-form-urlencoded"));
             var responseContent = await response.Content.ReadAsStringAsync();
 
-            // Deserialize the JSON response
-            var accessToken = System.Text.Json.JsonSerializer.Deserialize<SpotifyAccessToken>(responseContent);
-
-            return accessToken;
+            return JsonSerializer.Deserialize<SpotifyAccessToken>(responseContent);
         }
 
-        public async Task Login()
+        public static async Task<string> Login()
         {
-            var redirectUri = "http://localhost:3000"; 
             var state = Guid.NewGuid().ToString();
-
-
             using var client = new HttpClient();
 
             var clientId = Environment.GetEnvironmentVariable("SPOTIFY_CLIENT_ID");
@@ -57,38 +53,38 @@ namespace PlaylistQuickAdd
             var response = await client.GetAsync($"https://accounts.spotify.com/authorize?client_id={clientId}&response_type=code&redirect_uri={redirectUri}&scope={scope}&state={state}");
 
             await Launcher.LaunchUriAsync(new Uri(response.RequestMessage.RequestUri.ToString()));
-            await StartHTTPListenerAsync(redirectUri, state);
+            await response.Content.ReadAsStringAsync();
 
-            var test = response.Content.ReadAsStringAsync();
+            return await StartHTTPListenerAsync(state);
         }
 
-        private async Task StartHTTPListenerAsync(string redirectUri, string state)
+        private static async Task<String> StartHTTPListenerAsync(string state)
         {
             var listener = new HttpListener();
             listener.Prefixes.Add(redirectUri + "/");
             listener.Start();
 
-            var context = await listener.GetContextAsync(); // This will wait until a request is received
+            var context = await listener.GetContextAsync();
 
             var response = context.Response;
             string responseString = "<html><body>Please return to the app.</body></html>";
             byte[] buffer = System.Text.Encoding.UTF8.GetBytes(responseString);
             response.ContentLength64 = buffer.Length;
-            await response.OutputStream.WriteAsync(buffer, 0, buffer.Length);
+            await response.OutputStream.WriteAsync(buffer);
             response.OutputStream.Close();
 
             var queryParams = HttpUtility.ParseQueryString(context.Request.Url.Query);
-            var code = queryParams["code"];
+            string code = queryParams["code"];
             var stateReceived = queryParams["state"];
 
             // Ensure state matches to prevent CSRF
             if (stateReceived == state)
             {
-                // Process the authorization code as needed
                 Console.WriteLine($"Authorization code: {code}");
             }
 
             listener.Stop();
+            return code;
         }
     }
 

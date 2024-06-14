@@ -64,7 +64,13 @@ namespace PlaylistQuickAdd
             var token = await authorization.GetSpotifyAccessToken();
             AccessTokenTextBlock.Text = token.AccessToken;
 
-            await authorization.Login();
+            string authorizationCode = await Authorization.Login();
+
+            if (authorizationCode != null)
+            {
+                //var accessToken = await authorization.GetAccessToken();
+                //AccessTokenTextBlock.Text = accessToken.AccessToken;
+            }
         }
     }
 }
