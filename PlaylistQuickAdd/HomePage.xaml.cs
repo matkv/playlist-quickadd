@@ -3,6 +3,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using System;
 using System.Collections.ObjectModel;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 // To learn more about WinUI, the WinUI project structure,
@@ -72,7 +73,8 @@ namespace PlaylistQuickAdd
                 AccessTokenUserTextBlock.Text = accessTokenForUser.AccessToken;
 
                 var userTest = await authorization.GetSpotifyUser(accessTokenForUser.AccessToken);
-                var test = userTest.ToString();
+
+                SpotifyUser user = JsonSerializer.Deserialize<SpotifyUser>(userTest);
             }
         }
     }
