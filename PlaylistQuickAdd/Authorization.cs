@@ -43,15 +43,13 @@ namespace PlaylistQuickAdd
             return JsonSerializer.Deserialize<SpotifyAccessToken>(responseContent);
         }
 
-        public async Task<SpotifyAccessToken> GetSpotifyAccessTokenForUser(string authorizationCode, string clientToken)
+        public async Task<SpotifyAccessToken> GetSpotifyAccessTokenForUser(string authorizationCode)
         {
             var clientId = Environment.GetEnvironmentVariable("SPOTIFY_CLIENT_ID");
             var clientSecret = Environment.GetEnvironmentVariable("SPOTIFY_CLIENT_SECRET");
             var clientsecret64 = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{clientId}:{clientSecret}"));
 
-
             var data = $"grant_type=authorization_code&code={authorizationCode}&redirect_uri={redirectUri}";
-
 
             using var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", clientsecret64);
@@ -106,7 +104,7 @@ namespace PlaylistQuickAdd
             return code;
         }
 
-        public async Task<string> GetSpotifyUser(string accessToken)
+        public static async Task<string> GetSpotifyUser(string accessToken)
         {
             using var client = new HttpClient();
 

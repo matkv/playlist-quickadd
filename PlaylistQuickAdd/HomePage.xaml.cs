@@ -18,6 +18,8 @@ namespace PlaylistQuickAdd
     {
         public ObservableCollection<Playlist> Playlists { get; set; }
 
+        private SpotifyUser loggedInUser;
+
         public HomePage()
         {
             this.InitializeComponent();
@@ -69,12 +71,13 @@ namespace PlaylistQuickAdd
 
             if (authorizationCode != null)
             {
-                var accessTokenForUser = await authorization.GetSpotifyAccessTokenForUser(authorizationCode, token.AccessToken);
+                var accessTokenForUser = await authorization.GetSpotifyAccessTokenForUser(authorizationCode);
                 AccessTokenUserTextBlock.Text = accessTokenForUser.AccessToken;
 
-                var userTest = await authorization.GetSpotifyUser(accessTokenForUser.AccessToken);
+                var userTest = await Authorization.GetSpotifyUser(accessTokenForUser.AccessToken);
 
-                SpotifyUser user = JsonSerializer.Deserialize<SpotifyUser>(userTest);
+                loggedInUser = JsonSerializer.Deserialize<SpotifyUser>(userTest);
+                Console.WriteLine(loggedInUser.DisplayName);
             }
         }
     }
