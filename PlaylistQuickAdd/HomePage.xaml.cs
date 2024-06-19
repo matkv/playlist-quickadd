@@ -61,6 +61,12 @@ namespace PlaylistQuickAdd
             _ = ConnectToSpotifyAsync();
         }
 
+        private void LoadPlaylists(object sender, RoutedEventArgs e)
+        {
+            if (loggedInUser != null)
+                Playlists = loggedInUser.GetPlaylists().Result;
+        }
+
         private async Task ConnectToSpotifyAsync()
         {
             var authorization = new Authorization();
@@ -77,7 +83,7 @@ namespace PlaylistQuickAdd
                 var userTest = await Authorization.GetSpotifyUser(accessTokenForUser.AccessToken);
 
                 loggedInUser = JsonSerializer.Deserialize<SpotifyUser>(userTest);
-                Console.WriteLine(loggedInUser.DisplayName);
+                loggedInUser.UserAccessToken = accessTokenForUser; // TEMP
             }
         }
     }

@@ -115,7 +115,7 @@ namespace PlaylistQuickAdd
         }
     }
 
-    internal class SpotifyAccessToken
+    public class SpotifyAccessToken
     {
         [JsonPropertyName("access_token")]
         public string AccessToken { get; set; }

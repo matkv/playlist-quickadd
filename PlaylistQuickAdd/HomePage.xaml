@@ -25,5 +25,6 @@
         <Button Content="Login" Click="LoginSpotify" />
         <TextBlock x:Name="AccessTokenTextBlock" FontSize="20"/>
         <TextBlock x:Name="AccessTokenUserTextBlock" FontSize="20"/>
+        <Button Content="Load Playlists" Click="LoadPlaylists" />
     </StackPanel>
 </Page>
