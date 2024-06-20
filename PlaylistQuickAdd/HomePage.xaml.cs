@@ -1,6 +1,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
+using SpotifyAPI.Web;
 using System;
 using System.Collections.ObjectModel;
 using System.Text.Json;
@@ -47,7 +48,7 @@ namespace PlaylistQuickAdd
         {
             foreach (var playlist in Playlists)
             {
-                var image = new Image
+                var image = new Microsoft.UI.Xaml.Controls.Image
                 {
                     Source = new BitmapImage(new Uri("ms-appx:///Assets/Square150x150Logo.scale-200.png"))
                 };
@@ -63,28 +64,17 @@ namespace PlaylistQuickAdd
 
         private void LoadPlaylists(object sender, RoutedEventArgs e)
         {
-            if (loggedInUser != null)
-                Playlists = loggedInUser.GetPlaylists().Result;
+            //TODO
         }
 
         private async Task ConnectToSpotifyAsync()
         {
             var authorization = new Authorization();
-            var token = await authorization.GetSpotifyAccessTokenForClient();
-            AccessTokenTextBlock.Text = token.AccessToken;
 
-            string authorizationCode = await Authorization.Login();
+            SpotifyClient spotifyClient = await authorization.Login();
 
-            if (authorizationCode != null)
-            {
-                var accessTokenForUser = await authorization.GetSpotifyAccessTokenForUser(authorizationCode);
-                AccessTokenUserTextBlock.Text = accessTokenForUser.AccessToken;
-
-                var userTest = await Authorization.GetSpotifyUser(accessTokenForUser.AccessToken);
-
-                loggedInUser = JsonSerializer.Deserialize<SpotifyUser>(userTest);
-                loggedInUser.UserAccessToken = accessTokenForUser; // TEMP
-            }
+            if (spotifyClient != null)
+                AccessTokenTextBlock.Text = spotifyClient.UserProfile.ToString();
         }
     }
 }

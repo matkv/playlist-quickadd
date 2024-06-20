@@ -47,6 +47,7 @@
       <Version>16.10.0</Version>
       <ExcludeAssets>build</ExcludeAssets>
     </PackageReference>
+    <PackageReference Include="SpotifyAPI.Web" Version="7.1.1" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
