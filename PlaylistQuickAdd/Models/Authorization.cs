@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Web;
 using Windows.System;
 
-namespace PlaylistQuickAdd
+namespace PlaylistQuickAdd.Models
 {
     internal class Authorization
     {
@@ -37,7 +37,7 @@ namespace PlaylistQuickAdd
             var data = $"grant_type=client_credentials&client_id={clientId}&client_secret={clientSecret}";
 
             using var client = new HttpClient();
-            var response = await client.PostAsync(spotifyEndpointURL, new StringContent(data, System.Text.Encoding.UTF8, "application/x-www-form-urlencoded"));
+            var response = await client.PostAsync(spotifyEndpointURL, new StringContent(data, Encoding.UTF8, "application/x-www-form-urlencoded"));
             var responseContent = await response.Content.ReadAsStringAsync();
 
             return JsonSerializer.Deserialize<SpotifyAccessToken>(responseContent);
@@ -53,7 +53,7 @@ namespace PlaylistQuickAdd
 
             using var client = new HttpClient();
             client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Basic", clientsecret64);
-            var response = await client.PostAsync(spotifyEndpointURL, new StringContent(data, System.Text.Encoding.UTF8, "application/x-www-form-urlencoded"));
+            var response = await client.PostAsync(spotifyEndpointURL, new StringContent(data, Encoding.UTF8, "application/x-www-form-urlencoded"));
             var responseContent = await response.Content.ReadAsStringAsync();
 
             return JsonSerializer.Deserialize<SpotifyAccessToken>(responseContent);
@@ -75,7 +75,7 @@ namespace PlaylistQuickAdd
             return await StartHTTPListenerAsync(state);
         }
 
-        private static async Task<String> StartHTTPListenerAsync(string state)
+        private static async Task<string> StartHTTPListenerAsync(string state)
         {
             var listener = new HttpListener();
             listener.Prefixes.Add(redirectUri + "/");
@@ -85,7 +85,7 @@ namespace PlaylistQuickAdd
 
             var response = context.Response;
             string responseString = "<html><body>Please return to the app.</body></html>";
-            byte[] buffer = System.Text.Encoding.UTF8.GetBytes(responseString);
+            byte[] buffer = Encoding.UTF8.GetBytes(responseString);
             response.ContentLength64 = buffer.Length;
             await response.OutputStream.WriteAsync(buffer);
             response.OutputStream.Close();

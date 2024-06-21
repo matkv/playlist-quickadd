@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PlaylistQuickAdd
+namespace PlaylistQuickAdd.Models
 {
     public class Playlist(string title)
     {
