@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Page
-    x:Class="PlaylistQuickAdd.HomePage"
+    x:Class="PlaylistQuickAdd.Home"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:local="using:PlaylistQuickAdd"
+    xmlns:local="using:PlaylistQuickAdd" 
+    xmlns:viewmodels="using:PlaylistQuickAdd.ViewModels" xmlns:models="using:PlaylistQuickAdd.Models"
     mc:Ignorable="d">
 
+    <Page.DataContext>
+        <viewmodels:HomeViewModel x:Name="HomeViewModel" />
+    </Page.DataContext>
     <StackPanel Spacing="10">
         <TextBlock>Hello this is the homepage.</TextBlock>
         <Grid>
-            <GridView ItemsSource="{x:Bind Playlists, Mode=OneWay}">
+            <GridView ItemsSource="{x:Bind HomeViewModel.Playlists, Mode=OneWay}">
                 <GridView.ItemTemplate>
-                    <DataTemplate x:DataType="local:Playlist">
+                    <DataTemplate x:DataType="models:Playlist">
                         <StackPanel Orientation="Vertical">
                             <Image Source="{x:Bind PlaylistCover}" Width="150" Height="125" />
                             <TextBlock Text="{x:Bind Title, Mode=OneWay}" FontWeight="Bold" Padding="5" />
@@ -22,9 +26,9 @@
                 </GridView.ItemTemplate>
             </GridView>
         </Grid>
-        <Button Content="Login" Click="LoginSpotify" />
-        <TextBlock x:Name="AccessTokenTextBlock" FontSize="20"/>
-        <TextBlock x:Name="AccessTokenUserTextBlock" FontSize="20"/>
-        <Button Content="Load Playlists" Click="LoadPlaylists" />
+        <Button Command="{Binding LoginSpotifyCommand}" Content="Login" />
+        <TextBlock Text="{Binding AccessTokenClientText, Mode=OneWay}" FontSize="20"/>
+        <TextBlock Text="{Binding AccessTokenUserText, Mode=OneWay}" FontSize="20"/>
+        <Button Command="{Binding LoadPlaylistsCommand}"  Content="Load Playlists" />
     </StackPanel>
 </Page>

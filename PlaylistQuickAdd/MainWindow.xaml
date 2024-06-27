@@ -22,7 +22,7 @@
                         Background="Transparent"
                         IsPaneToggleButtonVisible="False">
             <NavigationView.MenuItems>
-                <NavigationViewItem Tag="PlaylistQuickAdd.HomePage" Content="Home" Icon="Home" />
+                <NavigationViewItem Tag="PlaylistQuickAdd.Home" Content="Home" Icon="Home" />
                 <NavigationViewItem Tag="PlaylistQuickAdd.PlaylistsPage" Content="Playlists" Icon="MusicInfo" />
             </NavigationView.MenuItems>
 

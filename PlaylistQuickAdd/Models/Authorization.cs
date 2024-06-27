@@ -10,12 +10,15 @@ using System.Threading.Tasks;
 using System.Web;
 using Windows.System;
 
-namespace PlaylistQuickAdd
+namespace PlaylistQuickAdd.Models
 {
     internal class Authorization
     {
         private readonly string spotifyEndpointURL;
         private const string redirectUri = "http://localhost:3000";
+
+        public string AccessTokenClient { get; internal set; }
+        public string AccessTokenUser { get; internal set; }
 
         public Authorization()
         {
