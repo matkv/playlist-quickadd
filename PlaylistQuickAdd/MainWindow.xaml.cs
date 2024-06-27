@@ -40,7 +40,7 @@ namespace PlaylistQuickAdd
             ContentFrame.Navigated += On_Navigated;
             NavView.SelectedItem = NavView.MenuItems[0];
 
-            NavView_Navigate(typeof(HomePage), new EntranceNavigationTransitionInfo());
+            NavView_Navigate(typeof(Home), new EntranceNavigationTransitionInfo());
         }
 
         private void NavView_Navigate(
