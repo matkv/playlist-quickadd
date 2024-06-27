@@ -1,14 +1,13 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
+using PlaylistQuickAdd.Models;
 using System;
 using System.Collections.ObjectModel;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using CommunityToolkit.Mvvm.ComponentModel;
-using System.Text.Json;
-using System.Linq;
-using PlaylistQuickAdd.Models;
 
 namespace PlaylistQuickAdd.ViewModels
 {
