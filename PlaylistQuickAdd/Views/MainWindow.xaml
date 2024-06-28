@@ -22,8 +22,8 @@
                         Background="Transparent"
                         IsPaneToggleButtonVisible="False">
             <NavigationView.MenuItems>
-                <NavigationViewItem Tag="PlaylistQuickAdd.Home" Content="Home" Icon="Home" />
-                <NavigationViewItem Tag="PlaylistQuickAdd.PlaylistsPage" Content="Playlists" Icon="MusicInfo" />
+                <NavigationViewItem Tag="PlaylistQuickAdd.HomeView" Content="Home" Icon="Home" />
+                <NavigationViewItem Tag="PlaylistQuickAdd.PlaylistsView" Content="Playlists" Icon="MusicInfo" />
             </NavigationView.MenuItems>
 
             <ScrollViewer >
