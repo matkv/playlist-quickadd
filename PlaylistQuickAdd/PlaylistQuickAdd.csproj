@@ -14,7 +14,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="AppSettings.json" />
-    <None Remove="HomePage.xaml" />
+    <None Remove="HomeView.xaml" />
     <None Remove="PlaylistsView.xaml" />
     <None Remove="SettingsView.xaml" />
   </ItemGroup>
@@ -86,7 +86,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="HomePage.xaml">
+    <Page Update="HomeView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

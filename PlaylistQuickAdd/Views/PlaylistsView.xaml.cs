@@ -12,7 +12,6 @@ namespace PlaylistQuickAdd
     {
         public PlaylistsView()
         {
-            // TODO create viewmodel 
             this.InitializeComponent();
         }
     }
