@@ -15,8 +15,8 @@
   <ItemGroup>
     <None Remove="AppSettings.json" />
     <None Remove="HomePage.xaml" />
-    <None Remove="PlaylistsPage.xaml" />
-    <None Remove="SettingsPage.xaml" />
+    <None Remove="PlaylistsView.xaml" />
+    <None Remove="SettingsView.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -76,12 +76,12 @@
     <ProjectCapability Include="TestContainer" />
   </ItemGroup>
   <ItemGroup>
-    <Page Update="SettingsPage.xaml">
+    <Page Update="SettingsView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="PlaylistsPage.xaml">
+    <Page Update="PlaylistsView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

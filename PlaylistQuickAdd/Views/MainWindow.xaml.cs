@@ -40,7 +40,7 @@ namespace PlaylistQuickAdd
             ContentFrame.Navigated += On_Navigated;
             NavView.SelectedItem = NavView.MenuItems[0];
 
-            NavView_Navigate(typeof(Home), new EntranceNavigationTransitionInfo());
+            NavView_Navigate(typeof(HomeView), new EntranceNavigationTransitionInfo());
         }
 
         private void NavView_Navigate(
@@ -61,7 +61,7 @@ namespace PlaylistQuickAdd
 
             if (args.IsSettingsInvoked)
             {
-                NavView_Navigate(typeof(SettingsPage), args.RecommendedNavigationTransitionInfo);
+                NavView_Navigate(typeof(SettingsView), args.RecommendedNavigationTransitionInfo);
             }
             else if (args.InvokedItemContainer != null)
             {
@@ -74,7 +74,7 @@ namespace PlaylistQuickAdd
         {
             NavView.IsBackEnabled = ContentFrame.CanGoBack;
 
-            if (ContentFrame.SourcePageType == typeof(SettingsPage))
+            if (ContentFrame.SourcePageType == typeof(SettingsView))
             {
                 // SettingsItem is not part of NavView.MenuItems, and doesn't have a Tag.
                 NavView.SelectedItem = (NavigationViewItem)NavView.SettingsItem;

@@ -15,10 +15,10 @@ namespace PlaylistQuickAdd
     /// <summary>
     /// An empty page that can be used on its own or navi²³gated to within a Frame.
     /// </summary>
-    public sealed partial class Home : Page
+    public sealed partial class HomeView : Page
     {
 
-        public Home()
+        public HomeView()
         {
             this.InitializeComponent();
         }

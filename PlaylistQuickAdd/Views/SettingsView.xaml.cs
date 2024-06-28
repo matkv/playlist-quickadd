@@ -8,11 +8,11 @@ namespace PlaylistQuickAdd
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class PlaylistsPage : Page
+    public sealed partial class SettingsView : Page
     {
-        public PlaylistsPage()
+        public SettingsView()
         {
-            // TODO create viewmodel 
+            // TODO create viewmodel
             this.InitializeComponent();
         }
     }
