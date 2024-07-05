@@ -14,18 +14,6 @@
     </Page.DataContext>
     <StackPanel Spacing="10">
         <TextBlock>Hello this is the homepage.</TextBlock>
-        <Grid>
-            <GridView ItemsSource="{x:Bind HomeViewModel.Playlists, Mode=OneWay}">
-                <GridView.ItemTemplate>
-                    <DataTemplate x:DataType="models:Playlist">
-                        <StackPanel Orientation="Vertical">
-                            <Image Source="{x:Bind PlaylistCover}" Width="150" Height="125" />
-                            <TextBlock Text="{x:Bind Title, Mode=OneWay}" FontWeight="Bold" Padding="5" />
-                        </StackPanel>
-                    </DataTemplate>
-                </GridView.ItemTemplate>
-            </GridView>
-        </Grid>
         <Button Command="{Binding LoginSpotifyCommand}" Content="Login" />
         <TextBlock Text="{Binding AccessTokenClientText, Mode=OneWay}" FontSize="20"/>
         <TextBlock Text="{Binding AccessTokenUserText, Mode=OneWay}" FontSize="20"/>
