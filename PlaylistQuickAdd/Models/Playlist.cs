@@ -1,13 +1,6 @@
-﻿using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
-using System;
-using System.Collections.Generic;
+﻿using Microsoft.UI.Xaml.Media;
 using System.ComponentModel;
-using System.Linq;
-using System.Reflection.Metadata;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PlaylistQuickAdd.Models
 {
