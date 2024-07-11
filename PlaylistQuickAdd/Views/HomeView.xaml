@@ -17,6 +17,5 @@
         <Button Command="{Binding LoginSpotifyCommand}" Content="Login" />
         <TextBlock Text="{Binding AccessTokenClientText, Mode=OneWay}" FontSize="20"/>
         <TextBlock Text="{Binding AccessTokenUserText, Mode=OneWay}" FontSize="20"/>
-        <Button Command="{Binding LoadPlaylistsCommand}"  Content="Load Playlists" />
     </StackPanel>
 </Page>

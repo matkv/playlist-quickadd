@@ -34,7 +34,6 @@ namespace PlaylistQuickAdd.ViewModels
         }
 
         public ICommand LoginSpotifyCommand { get; private set; }
-        public ICommand LoadPlaylistsCommand { get; private set; }
 
         private Authorization authorization;
 
@@ -45,14 +44,6 @@ namespace PlaylistQuickAdd.ViewModels
             authorization = new Authorization();
 
             LoginSpotifyCommand = new AsyncRelayCommand(LoginSpotify);
-            LoadPlaylistsCommand = new AsyncRelayCommand(LoadPlaylists);
-        }
-
-        private async Task LoadPlaylists()
-        {
-            return; // TODO rewrite with SpotifyAPI-NET and then check again
-            //if (loggedInUser != null)
-            //    playlists = await loggedInUser.GetPlaylists();
         }
 
         private async Task LoginSpotify()

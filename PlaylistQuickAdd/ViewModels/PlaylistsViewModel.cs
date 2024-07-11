@@ -1,9 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using PlaylistQuickAdd.Models;
 using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace PlaylistQuickAdd.ViewModels
 {
@@ -20,12 +23,13 @@ namespace PlaylistQuickAdd.ViewModels
                 }
             }
         }
-
+        public ICommand LoadPlaylistsCommand { get; private set; }
         private ObservableCollection<Playlist> playlists;
 
         public PlaylistsViewModel()
         {
 
+            LoadPlaylistsCommand = new AsyncRelayCommand(LoadPlaylists);
             CreateSamplePlaylists();
         }
         private void CreateSamplePlaylists()
@@ -44,6 +48,7 @@ namespace PlaylistQuickAdd.ViewModels
 
             TempSetImagesForPlaylists();
         }
+
         private void TempSetImagesForPlaylists()
         {
             foreach (var playlist in Playlists)
@@ -55,6 +60,13 @@ namespace PlaylistQuickAdd.ViewModels
 
                 playlist.PlaylistCover = image.Source;
             }
+        }
+
+        private async Task LoadPlaylists()
+        {
+            return; // TODO rewrite with SpotifyAPI-NET and then check again
+            //if (loggedInUser != null)
+            //    playlists = await loggedInUser.GetPlaylists();
         }
     }
 }
