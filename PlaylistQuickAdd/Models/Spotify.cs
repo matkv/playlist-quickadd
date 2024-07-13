@@ -16,7 +16,7 @@ namespace PlaylistQuickAdd.Models
         public List<string> Playlists { get; internal set; }
 
         private readonly string spotifyEndpointURL;
-        private const string redirectUri = "http://localhost:3000/callback";
+        private readonly string redirectUri;
         private static EmbedIOAuthServer authServer;
 
 
@@ -30,6 +30,7 @@ namespace PlaylistQuickAdd.Models
                 .Build();
 
             spotifyEndpointURL = configuration.GetSection("SpotifyEndpointURL").Value; // TODO still needed?
+            redirectUri = configuration.GetSection("RedirectURI").Value;
         }
 
         internal async Task Login()
