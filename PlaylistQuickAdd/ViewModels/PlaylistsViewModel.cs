@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using PlaylistQuickAdd.Models;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -42,23 +43,15 @@ namespace PlaylistQuickAdd.ViewModels
 
         public PlaylistsViewModel()
         {
-
             LoadPlaylistsCommand = new AsyncRelayCommand(LoadPlaylists);
-            CreateSamplePlaylists();
         }
         private void CreateSamplePlaylists()
         {
-            Playlists =
-            [
-                new Playlist("Playlist 1"),
-                new Playlist("Playlist 2"),
-                new Playlist("Playlist 3"),
-                new Playlist("Playlist 4"),
-                new Playlist("Playlist 5"),
-                new Playlist("Playlist 6"),
-                new Playlist("Playlist 7"),
-                new Playlist("Playlist 8"),
-            ];
+
+
+
+
+
 
             TempSetImagesForPlaylists();
         }
@@ -78,9 +71,22 @@ namespace PlaylistQuickAdd.ViewModels
 
         private async Task LoadPlaylists()
         {
-            return; // TODO rewrite with SpotifyAPI-NET and then check again
-            //if (loggedInUser != null)
-            //    playlists = await loggedInUser.GetPlaylists();
+            Playlists = new ObservableCollection<Playlist>();
+
+            foreach (var playlist in Spotify.Client.Playlists.CurrentUsers().Result.Items)
+            {
+                var newPlaylist = new Playlist(playlist.Name);
+
+                var image = new Image();
+
+                if (playlist.Images.Any())
+                    image.Source = new BitmapImage(new Uri(playlist.Images[0].Url)); // TEMP
+                else
+                    image.Source = new BitmapImage(new Uri("ms-appx:///Assets/Square150x150Logo.scale-200.png"));
+
+                newPlaylist.PlaylistCover = image.Source;
+                Playlists.Add(newPlaylist);
+            }
         }
     }
 }
