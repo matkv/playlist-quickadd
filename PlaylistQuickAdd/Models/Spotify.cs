@@ -30,6 +30,8 @@ namespace PlaylistQuickAdd.Models
             redirectUri = configuration.GetSection("RedirectURI").Value;
         }
 
+
+
         internal async Task Login()
         {
             authServer = new EmbedIOAuthServer(new Uri(redirectUri), 3000);
@@ -60,6 +62,11 @@ namespace PlaylistQuickAdd.Models
         {
             Console.WriteLine($"Aborting authorization, error received: {error}");
             await authServer.Stop();
+        }
+
+        internal async Task Initialize()
+        {
+            await Login();
         }
     }
 }

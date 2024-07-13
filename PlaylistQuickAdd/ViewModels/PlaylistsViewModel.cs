@@ -12,6 +12,20 @@ namespace PlaylistQuickAdd.ViewModels
 {
     public class PlaylistsViewModel : ObservableObject
     {
+        public SharedDataService sharedDataService;
+
+        public Spotify Spotify
+        {
+            get => sharedDataService.Spotify; set
+            {
+                if (sharedDataService.Spotify != value)
+                {
+                    sharedDataService.Spotify = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public ObservableCollection<Playlist> Playlists
         {
             get => playlists; set
