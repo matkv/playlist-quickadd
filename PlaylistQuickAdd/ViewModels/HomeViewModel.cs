@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using PlaylistQuickAdd.Models;
-using System.Text.Json;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -9,60 +9,62 @@ namespace PlaylistQuickAdd.ViewModels
 {
     internal class HomeViewModel : ObservableObject
     {
-
-        public string AccessTokenClientText
+        public string LoggedInUserText
         {
-            get => authorization.AccessTokenClient; set
+            get => spotify.LoggedInUser; set
             {
-                if (authorization.AccessTokenClient != value)
+                if (spotify.LoggedInUser != value)
                 {
-                    authorization.AccessTokenClient = value;
-                    OnPropertyChanged();
+                    spotify.LoggedInUser = value;
                 }
+
+                OnPropertyChanged(); // TODO check why it doesn't work as it should when inside the if clause
             }
         }
-        public string AccessTokenUserText
+
+        public List<string> Playlists
         {
-            get => authorization.AccessTokenUser; set
+
+            get => spotify.Playlists; set
             {
-                if (authorization.AccessTokenUser != value)
+                if (spotify.Playlists != value)
                 {
-                    authorization.AccessTokenUser = value;
-                    OnPropertyChanged();
+                    spotify.Playlists = value;
                 }
+
+                OnPropertyChanged(); // TODO check why it doesn't work as it should when inside the if clause
             }
+
         }
 
         public ICommand LoginSpotifyCommand { get; private set; }
+        public ICommand ShowUserDataCommand { get; private set; }
 
-        private Authorization authorization;
-
-        private SpotifyUser loggedInUser;
+        private Spotify spotify;
 
         public HomeViewModel()
         {
-            authorization = new Authorization();
+            spotify = new Spotify();
 
             LoginSpotifyCommand = new AsyncRelayCommand(LoginSpotify);
+            ShowUserDataCommand = new RelayCommand(ShowUserData);
         }
 
         private async Task LoginSpotify()
         {
-            var token = await authorization.GetSpotifyAccessTokenForClient();
+            await spotify.Login();
+        }
 
-            AccessTokenClientText = token.AccessToken;
-
-            string authorizationCode = await Authorization.Login();
-
-            if (authorizationCode != null)
+        private async void ShowUserData()
+        {
+            if (spotify.Client != null)
             {
-                var accessTokenForUser = await authorization.GetSpotifyAccessTokenForUser(authorizationCode);
-                AccessTokenUserText = accessTokenForUser.AccessToken;
+                SpotifyAPI.Web.PrivateUser profile = await spotify.Client.UserProfile.Current();
+                spotify.LoggedInUser = profile.DisplayName;
 
-                var userTest = await Authorization.GetSpotifyUser(accessTokenForUser.AccessToken);
+                LoggedInUserText = spotify.LoggedInUser;
 
-                loggedInUser = JsonSerializer.Deserialize<SpotifyUser>(userTest);
-                loggedInUser.UserAccessToken = accessTokenForUser; // TEMP
+                Playlists = spotify.Client.Playlists.CurrentUsers().Result.Items.ConvertAll(playlist => playlist.Name);
             }
         }
     }

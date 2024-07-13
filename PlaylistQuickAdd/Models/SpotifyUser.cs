@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text.Json;
+﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace PlaylistQuickAdd.Models
 {
@@ -47,32 +41,6 @@ namespace PlaylistQuickAdd.Models
         [JsonPropertyName("email")]
         public string Email { get; set; }
 
-        public SpotifyAccessToken UserAccessToken { get; set; }
-
-        internal async Task<ObservableCollection<Playlist>> GetPlaylists()
-        {
-            // TODO REWRITE ALL OF THIS TO USER https://github.com/JohnnyCrazy/SpotifyAPI-NET
-
-            using HttpClient client = new HttpClient();
-
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", UserAccessToken.AccessToken);
-            HttpResponseMessage response = await client.GetAsync("https://api.spotify.com/v1/me/playlists");
-
-            await response.Content.ReadAsStringAsync();
-
-            if (response.IsSuccessStatusCode)
-            {
-                string responseBody = await response.Content.ReadAsStringAsync();
-                List<Playlist> playlists = JsonSerializer.Deserialize<List<Playlist>>(responseBody);
-
-                return new ObservableCollection<Playlist>(playlists);
-            }
-            else
-            {
-                Console.WriteLine($"Error: {response.StatusCode}");
-                return null;
-            }
-        }
     }
 
     public class ExternalUrls
