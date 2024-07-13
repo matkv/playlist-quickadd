@@ -15,10 +15,8 @@ namespace PlaylistQuickAdd.Models
         public string LoggedInUser { get; set; } // TEMP
         public List<string> Playlists { get; internal set; }
 
-        private readonly string spotifyEndpointURL;
         private readonly string redirectUri;
         private static EmbedIOAuthServer authServer;
-
 
         public Spotify()
         {
@@ -29,7 +27,6 @@ namespace PlaylistQuickAdd.Models
                 .AddJsonFile("AppSettings.json")
                 .Build();
 
-            spotifyEndpointURL = configuration.GetSection("SpotifyEndpointURL").Value; // TODO still needed?
             redirectUri = configuration.GetSection("RedirectURI").Value;
         }
 
