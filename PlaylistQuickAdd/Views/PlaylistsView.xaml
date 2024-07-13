@@ -17,9 +17,13 @@
             <GridView ItemsSource="{x:Bind PlaylistsViewModel.Playlists, Mode=OneWay}">
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="models:Playlist">
-                        <StackPanel Orientation="Vertical">
-                            <Image Source="{x:Bind PlaylistCover}" Width="300" Height="300" />
-                            <TextBlock Text="{x:Bind Title, Mode=OneWay}" FontWeight="Bold" Padding="5" />
+                        <StackPanel Orientation="Vertical" Padding="15" >
+                            <Image Source="{x:Bind PlaylistCover}" Width="120" Height="120" />
+                            <RichTextBlock HorizontalTextAlignment="Center" VerticalAlignment="Center" >
+                                <Paragraph >
+                                    <Run Text="{x:Bind Title, Mode=OneWay}" FontWeight="Bold" />
+                                </Paragraph>
+                            </RichTextBlock> 
                         </StackPanel>
                     </DataTemplate>
                 </GridView.ItemTemplate>
