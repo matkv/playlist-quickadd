@@ -4,6 +4,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using PlaylistQuickAdd.Models;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,19 +28,18 @@ namespace PlaylistQuickAdd.ViewModels
             }
         }
 
-        public ObservableCollection<Playlist> Playlists
+        public List<Playlist> Playlists
         {
-            get => playlists; set
+            get => Spotify.PlaylistsWithImages; set
             {
-                if (playlists != value)
+                if (Spotify.PlaylistsWithImages != value)
                 {
-                    playlists = value;
+                    Spotify.PlaylistsWithImages = value;
                     OnPropertyChanged();
                 }
             }
         }
         public ICommand LoadPlaylistsCommand { get; private set; }
-        private ObservableCollection<Playlist> playlists;
 
         public PlaylistsViewModel()
         {
@@ -71,7 +71,7 @@ namespace PlaylistQuickAdd.ViewModels
 
         private async Task LoadPlaylists()
         {
-            Playlists = new ObservableCollection<Playlist>();
+            Playlists = new List<Playlist>();
 
             foreach (var playlist in Spotify.Client.Playlists.CurrentUsers().Result.Items)
             {

@@ -14,6 +14,7 @@ namespace PlaylistQuickAdd.Models
 
         public string LoggedInUser { get; set; } // TEMP
         public List<string> Playlists { get; internal set; }
+        public List<Playlist> PlaylistsWithImages { get; internal set; } // TODO rename
 
         private readonly string redirectUri;
         private static EmbedIOAuthServer authServer;
