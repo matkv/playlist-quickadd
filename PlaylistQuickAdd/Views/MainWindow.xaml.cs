@@ -1,15 +1,10 @@
-using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
-using PlaylistQuickAdd.Models;
-using PlaylistQuickAdd.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 // To learn more about WinUI, the WinUI project structure,
