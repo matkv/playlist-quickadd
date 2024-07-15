@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using SpotifyAPI.Web;
 using SpotifyAPI.Web.Auth;
 using System;
@@ -16,8 +17,13 @@ namespace PlaylistQuickAdd.Models
         public List<string> Playlists { get; internal set; }
         public List<Playlist> PlaylistsWithImages { get; internal set; } // TODO rename
 
-        private readonly string redirectUri;
+        private readonly string redirectUriString;
         private static EmbedIOAuthServer authServer;
+        private string credentialsPath;
+
+        private string clientID = Environment.GetEnvironmentVariable("SPOTIFY_CLIENT_ID");
+
+        private static readonly EmbedIOAuthServer server = new(new Uri("http://localhost:3000/callback"), 3000);
 
         public Spotify()
         {
@@ -28,46 +34,82 @@ namespace PlaylistQuickAdd.Models
                 .AddJsonFile("AppSettings.json")
                 .Build();
 
-            redirectUri = configuration.GetSection("RedirectURI").Value;
+            redirectUriString = configuration.GetSection("RedirectURI").Value;
+
+            CheckValidClientID();
+            credentialsPath = Path.Combine(Directory.GetCurrentDirectory(), "credentials.json");
         }
 
-
+        private void CheckValidClientID()
+        {
+            if (string.IsNullOrEmpty(clientID))
+            {
+                throw new NullReferenceException("Please set SPOTIFY_CLIENT_ID via environment variables before starting the program");
+            }
+        }
 
         internal async Task Login()
         {
-            authServer = new EmbedIOAuthServer(new Uri(redirectUri), 3000);
-            await authServer.Start();
-
-            authServer.ImplictGrantReceived += OnImplicitGrantReceived;
-            authServer.ErrorReceived += OnErrorReceived;
-
-            var clientId = Environment.GetEnvironmentVariable("SPOTIFY_CLIENT_ID");
-
-            var loginRequest = new LoginRequest(new Uri(redirectUri), clientId, LoginRequest.ResponseType.Token)
+            if (File.Exists(credentialsPath))
             {
+                await ConnectToSpotify();
+            }
+            else
+            {
+                await StartAuthentication();
+            }
+        }
+
+        private async Task ConnectToSpotify()
+        {
+            var json = File.ReadAllText(credentialsPath);
+            var token = JsonConvert.DeserializeObject<PKCETokenResponse>(json);
+
+            var authenticator = new PKCEAuthenticator(clientID!, token!); // TODO check what the ! does
+            authenticator.TokenRefreshed += (sender, token) => File.WriteAllText(credentialsPath, JsonConvert.SerializeObject(token));
+
+            var config = SpotifyClientConfig.CreateDefault().WithAuthenticator(authenticator);
+
+            Client = new SpotifyClient(config);
+
+
+            server.Dispose();
+        }
+
+        private async Task StartAuthentication()
+        {
+            var (verifier, challenge) = PKCEUtil.GenerateCodes();
+
+            Uri redirectUri = new Uri(this.redirectUriString);
+
+            await server.Start();
+            server.AuthorizationCodeReceived += async (sender, response) =>
+            {
+                await server.Stop();
+                var token = await new OAuthClient().RequestToken(
+                  new PKCETokenRequest(clientID!, response.Code, redirectUri, verifier)
+                );
+
+                await File.WriteAllTextAsync(credentialsPath, JsonConvert.SerializeObject(token));
+                await ConnectToSpotify();
+            };
+
+            var request = new LoginRequest(redirectUri, clientID!, LoginRequest.ResponseType.Code)
+            {
+                CodeChallenge = challenge,
+                CodeChallengeMethod = "S256",
                 Scope = [Scopes.PlaylistReadPrivate, Scopes.PlaylistReadCollaborative]
             };
-            
-            BrowserUtil.Open(loginRequest.ToUri());
-        }
 
-        private async Task<SpotifyClient> OnImplicitGrantReceived(object sender, ImplictGrantResponse response)
-        {
-            await authServer.Stop();
-
-            Client = new SpotifyClient(response.AccessToken);
-            return Client;
-        }
-
-        private static async Task OnErrorReceived(object sender, string error, string state)
-        {
-            Console.WriteLine($"Aborting authorization, error received: {error}");
-            await authServer.Stop();
-        }
-
-        internal async Task Initialize()
-        {
-            await Login();
+            var uri = request.ToUri();
+            try
+            {
+                BrowserUtil.Open(uri);
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Unable to open URL, manually open: {0}", redirectUri);
+            }
         }
     }
 }
