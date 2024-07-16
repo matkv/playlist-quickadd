@@ -54,10 +54,7 @@ namespace PlaylistQuickAdd
             serviceCollection.AddSingleton(sharedDataService);
 
             AddViewAndViewModels(serviceCollection);
-
-
             ServiceProvider = serviceCollection.BuildServiceProvider();
-
         }
 
         private static void AddViewAndViewModels(ServiceCollection serviceCollection)

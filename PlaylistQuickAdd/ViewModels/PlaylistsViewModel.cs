@@ -45,16 +45,6 @@ namespace PlaylistQuickAdd.ViewModels
         {
             LoadPlaylistsCommand = new AsyncRelayCommand(LoadPlaylists);
         }
-        private void CreateSamplePlaylists()
-        {
-
-
-
-
-
-
-            TempSetImagesForPlaylists();
-        }
 
         private void TempSetImagesForPlaylists()
         {
@@ -71,7 +61,7 @@ namespace PlaylistQuickAdd.ViewModels
 
         private async Task LoadPlaylists()
         {
-            Playlists = new List<Playlist>();
+            Playlists = [];
 
             foreach (var playlist in Spotify.Client.Playlists.CurrentUsers().Result.Items)
             {
