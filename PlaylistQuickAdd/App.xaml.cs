@@ -3,6 +3,7 @@ using Microsoft.UI.Xaml;
 using PlaylistQuickAdd.Models;
 using PlaylistQuickAdd.ViewModels;
 using System;
+using System.Threading.Tasks;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -29,10 +30,10 @@ namespace PlaylistQuickAdd
         /// Invoked when the application is launched.
         /// </summary>
         /// <param name="args">Details about the launch request and process.</param>
-        protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
+        protected override async void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
             Microsoft.VisualStudio.TestPlatform.TestExecutor.UnitTestClient.CreateDefaultUI();
-            SetupSharedData();
+            await SetupSharedData();
 
             m_window = new MainWindow();            
             m_window.Activate();
@@ -43,12 +44,12 @@ namespace PlaylistQuickAdd
             Microsoft.VisualStudio.TestPlatform.TestExecutor.UnitTestClient.Run(Environment.CommandLine);
         }
 
-        private void SetupSharedData()
+        private async Task SetupSharedData()
         {
             var serviceCollection = new ServiceCollection();
 
             var sharedDataService = new SharedDataService();
-            sharedDataService.LoginSpotify().GetAwaiter().GetResult();
+            await sharedDataService.LoginSpotify();
 
             serviceCollection.AddSingleton(sharedDataService);
 

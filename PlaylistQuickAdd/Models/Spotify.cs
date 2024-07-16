@@ -61,7 +61,7 @@ namespace PlaylistQuickAdd.Models
 
         private async Task ConnectToSpotify()
         {
-            var json = File.ReadAllText(credentialsPath);
+            var json = await File.ReadAllTextAsync(credentialsPath);
             var token = JsonConvert.DeserializeObject<PKCETokenResponse>(json);
 
             var authenticator = new PKCEAuthenticator(clientID!, token!); // TODO check what the ! does
