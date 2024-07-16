@@ -18,10 +18,9 @@ namespace PlaylistQuickAdd.Models
         public List<Playlist> PlaylistsWithImages { get; internal set; } // TODO rename
 
         private readonly string redirectUriString;
-        private static EmbedIOAuthServer authServer;
-        private string credentialsPath;
+        private readonly string credentialsPath;
 
-        private string clientID = Environment.GetEnvironmentVariable("SPOTIFY_CLIENT_ID");
+        private readonly string clientID = Environment.GetEnvironmentVariable("SPOTIFY_CLIENT_ID");
 
         private static readonly EmbedIOAuthServer server = new(new Uri("http://localhost:3000/callback"), 3000);
 
@@ -71,7 +70,6 @@ namespace PlaylistQuickAdd.Models
             var config = SpotifyClientConfig.CreateDefault().WithAuthenticator(authenticator);
 
             Client = new SpotifyClient(config);
-
 
             server.Dispose();
         }
