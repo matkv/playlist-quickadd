@@ -14,10 +14,8 @@
     </Page.DataContext>
     <StackPanel Spacing="10">
         <TextBlock>Hello this is the homepage.</TextBlock>
-        <Button Command="{Binding LoginSpotifyCommand}" Content="Login" />
         <Button Command="{Binding ShowUserDataCommand}" Content="Show User Data" />
         <TextBlock Text="{Binding LoggedInUserText , Mode=OneWay}" FontSize="20"/>
-
         <ListBox ItemsSource="{Binding Playlists, Mode=OneWay}"></ListBox>
     </StackPanel>
 </Page>
