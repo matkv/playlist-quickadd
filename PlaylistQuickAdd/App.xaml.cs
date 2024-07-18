@@ -59,13 +59,13 @@ namespace PlaylistQuickAdd
 
         private static void AddViewAndViewModels(ServiceCollection serviceCollection)
         {
-            serviceCollection.AddTransient<HomeViewModel>();
-            serviceCollection.AddTransient<PlaylistsViewModel>();
-            serviceCollection.AddTransient<SettingsViewModel>();
-
             serviceCollection.AddTransient<HomeView>();
             serviceCollection.AddTransient<PlaylistsView>();
             serviceCollection.AddTransient<SettingsView>();
+
+            serviceCollection.AddTransient<HomeViewModel>();
+            serviceCollection.AddTransient<PlaylistsViewModel>();
+            serviceCollection.AddTransient<SettingsViewModel>();
         }
 
         private Window m_window;
