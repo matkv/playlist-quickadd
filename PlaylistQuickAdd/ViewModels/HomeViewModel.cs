@@ -1,11 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using PlaylistQuickAdd.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace PlaylistQuickAdd.ViewModels
 {
@@ -50,11 +48,9 @@ namespace PlaylistQuickAdd.ViewModels
             }
         }
 
-
         public HomeViewModel()
         {
             SetupSharedDataService();
-
             ShowUserData();
         }
 

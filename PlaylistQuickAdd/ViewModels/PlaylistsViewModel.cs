@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -7,10 +6,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using PlaylistQuickAdd.Models;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Input;
 
 namespace PlaylistQuickAdd.ViewModels
 {
@@ -50,7 +46,10 @@ namespace PlaylistQuickAdd.ViewModels
 
         private async Task LoadPlaylists()
         {
-            Playlists = [];
+            if (Playlists == null)
+                Playlists = [];
+            else if (Playlists.Count > 0)
+                return;
 
             foreach (var playlist in Spotify.Client.Playlists.CurrentUsers().Result.Items)
             {
@@ -58,7 +57,7 @@ namespace PlaylistQuickAdd.ViewModels
 
                 var image = new Image();
 
-                if (playlist.Images.Any())
+                if (playlist.Images.Count > 0)
                     image.Source = new BitmapImage(new Uri(playlist.Images[0].Url)); // TEMP
                 else
                     image.Source = new BitmapImage(new Uri("ms-appx:///Assets/Square150x150Logo.scale-200.png"));
