@@ -17,15 +17,6 @@ namespace PlaylistQuickAdd
         public HomeView()
         {
             this.InitializeComponent();
-            SetupSharedDataService();
-        }
-
-        private void SetupSharedDataService()
-        {
-            var app = (App)Application.Current;
-
-            var serviceProvider = app.ServiceProvider;
-            this.HomeViewModel.sharedDataService = serviceProvider.GetService<SharedDataService>();
         }
     }
 }

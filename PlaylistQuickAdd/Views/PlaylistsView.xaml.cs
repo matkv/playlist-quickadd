@@ -16,15 +16,6 @@ namespace PlaylistQuickAdd
         public PlaylistsView()
         {
             this.InitializeComponent();
-            SetupSharedDataService();
-        }
-
-        private void SetupSharedDataService()
-        {
-            var app = (App)Application.Current;
-
-            var serviceProvider = app.ServiceProvider;
-            this.PlaylistsViewModel.sharedDataService = serviceProvider.GetService<SharedDataService>();
         }
     }
 }
