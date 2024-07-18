@@ -1,12 +1,14 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.UI.Xaml;
 using PlaylistQuickAdd.Models;
 using System.Collections.Generic;
 using System.Windows.Input;
 
 namespace PlaylistQuickAdd.ViewModels
 {
-    internal class HomeViewModel : ObservableObject
+    internal class HomeViewModel : ObservableObject, IViewModel
     {
         public SharedDataService sharedDataService;
 
@@ -31,7 +33,6 @@ namespace PlaylistQuickAdd.ViewModels
                     Spotify.LoggedInUser = value;
                     OnPropertyChanged(); 
                 }
-
             }
         }
 
@@ -45,7 +46,6 @@ namespace PlaylistQuickAdd.ViewModels
                     Spotify.Playlists = value;
                     OnPropertyChanged();
                 }
-
             }
         }
 
@@ -53,7 +53,10 @@ namespace PlaylistQuickAdd.ViewModels
 
         public HomeViewModel()
         {
+            SetupSharedDataService();
+
             ShowUserDataCommand = new RelayCommand(ShowUserData);
+            ShowUserData();
         }
 
         private async void ShowUserData()
@@ -67,6 +70,14 @@ namespace PlaylistQuickAdd.ViewModels
 
                 Playlists = Spotify.Client.Playlists.CurrentUsers().Result.Items.ConvertAll(playlist => playlist.Name);
             }
+        }
+
+        public void SetupSharedDataService()
+        {
+            var app = (App)Application.Current;
+
+            var serviceProvider = app.ServiceProvider;
+            sharedDataService = serviceProvider.GetService<SharedDataService>();
         }
     }
 }

@@ -1,9 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.UI.Xaml;
 using PlaylistQuickAdd.Models;
 
 namespace PlaylistQuickAdd.ViewModels
 {
-    public class SettingsViewModel : ObservableObject
+    public class SettingsViewModel : ObservableObject, IViewModel
     {
         public SharedDataService sharedDataService;
 
@@ -18,9 +20,18 @@ namespace PlaylistQuickAdd.ViewModels
                 }
             }
         }
+
         public SettingsViewModel()
         {
-            
+            SetupSharedDataService();            
+        }
+
+        public void SetupSharedDataService()
+        {
+            var app = (App)Application.Current;
+
+            var serviceProvider = app.ServiceProvider;
+            sharedDataService = serviceProvider.GetService<SharedDataService>();
         }
     }
 }

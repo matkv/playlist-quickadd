@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using PlaylistQuickAdd.Models;
@@ -12,7 +14,7 @@ using System.Windows.Input;
 
 namespace PlaylistQuickAdd.ViewModels
 {
-    public class PlaylistsViewModel : ObservableObject
+    public class PlaylistsViewModel : ObservableObject, IViewModel
     {
         public SharedDataService sharedDataService;
 
@@ -43,7 +45,8 @@ namespace PlaylistQuickAdd.ViewModels
 
         public PlaylistsViewModel()
         {
-            LoadPlaylistsCommand = new AsyncRelayCommand(LoadPlaylists);
+            SetupSharedDataService();
+            LoadPlaylists();
         }
 
         private void TempSetImagesForPlaylists()
@@ -59,7 +62,7 @@ namespace PlaylistQuickAdd.ViewModels
             }
         }
 
-        private async Task LoadPlaylists()
+        private async void LoadPlaylists()
         {
             Playlists = [];
 
@@ -77,6 +80,14 @@ namespace PlaylistQuickAdd.ViewModels
                 newPlaylist.PlaylistCover = image.Source;
                 Playlists.Add(newPlaylist);
             }
+        }
+
+        public void SetupSharedDataService()
+        {
+            var app = (App)Application.Current;
+
+            var serviceProvider = app.ServiceProvider;
+            sharedDataService = serviceProvider.GetService<SharedDataService>();
         }
     }
 }
