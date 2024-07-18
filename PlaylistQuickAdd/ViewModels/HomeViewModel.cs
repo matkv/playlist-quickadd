@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using PlaylistQuickAdd.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace PlaylistQuickAdd.ViewModels
@@ -49,17 +50,15 @@ namespace PlaylistQuickAdd.ViewModels
             }
         }
 
-        public ICommand ShowUserDataCommand { get; private set; }
 
         public HomeViewModel()
         {
             SetupSharedDataService();
 
-            ShowUserDataCommand = new RelayCommand(ShowUserData);
             ShowUserData();
         }
 
-        private async void ShowUserData()
+        private async Task ShowUserData()
         {
             if (Spotify.Client != null)
             {

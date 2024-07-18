@@ -41,7 +41,6 @@ namespace PlaylistQuickAdd.ViewModels
                 }
             }
         }
-        public ICommand LoadPlaylistsCommand { get; private set; }
 
         public PlaylistsViewModel()
         {
@@ -49,20 +48,7 @@ namespace PlaylistQuickAdd.ViewModels
             LoadPlaylists();
         }
 
-        private void TempSetImagesForPlaylists()
-        {
-            foreach (var playlist in Playlists)
-            {
-                var image = new Image
-                {
-                    Source = new BitmapImage(new Uri("ms-appx:///Assets/Square150x150Logo.scale-200.png"))
-                };
-
-                playlist.PlaylistCover = image.Source;
-            }
-        }
-
-        private async void LoadPlaylists()
+        private async Task LoadPlaylists()
         {
             Playlists = [];
 

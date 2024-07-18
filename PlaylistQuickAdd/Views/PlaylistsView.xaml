@@ -29,6 +29,5 @@
                 </GridView.ItemTemplate>
             </GridView>
         </Grid>
-        <Button Command="{Binding LoadPlaylistsCommand}"  Content="Load Playlists" />
     </StackPanel>
 </Page>
