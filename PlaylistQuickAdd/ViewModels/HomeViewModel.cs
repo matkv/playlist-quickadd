@@ -2,6 +2,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using PlaylistQuickAdd.Models;
+using SpotifyAPI.Web;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -30,40 +32,57 @@ namespace PlaylistQuickAdd.ViewModels
                 if (Spotify.LoggedInUser != value)
                 {
                     Spotify.LoggedInUser = value;
-                    OnPropertyChanged(); 
                 }
+
+                OnPropertyChanged();
             }
         }
 
-        public List<string> Playlists
+        private string tempCurrentlyPlaying;
+        public string CurrentlyPlaying
         {
-
-            get => Spotify.Playlists; set
+            get => tempCurrentlyPlaying;
+            set
             {
-                if (Spotify.Playlists != value)
+                if (tempCurrentlyPlaying != value)
                 {
-                    Spotify.Playlists = value;
-                    OnPropertyChanged();
+                    tempCurrentlyPlaying = value;
                 }
+                OnPropertyChanged();
             }
+        }
+
+        public async Task InitializeAsync()
+        {
+            await ShowUserData();
+            await ShowSpotifyPlayer();
         }
 
         public HomeViewModel()
         {
             SetupSharedDataService();
-            ShowUserData();
+            InitializeAsync().ConfigureAwait(false);
         }
 
         private async Task ShowUserData()
         {
             if (Spotify.Client != null)
             {
-                SpotifyAPI.Web.PrivateUser profile = await Spotify.Client.UserProfile.Current();
+                PrivateUser profile = await Spotify.Client.UserProfile.Current();
                 Spotify.LoggedInUser = profile.DisplayName;
 
-                LoggedInUserText = Spotify.LoggedInUser;
+                LoggedInUserText = $"The currently logged in user is {Spotify.LoggedInUser}";
+            }
+        }
 
-                Playlists = Spotify.Client.Playlists.CurrentUsers().Result.Items.ConvertAll(playlist => playlist.Name);
+        private async Task ShowSpotifyPlayer()
+        {
+            var currentlyPlaying = await Spotify.Client.Player.GetCurrentlyPlaying(new PlayerCurrentlyPlayingRequest(PlayerCurrentlyPlayingRequest.AdditionalTypes.All));
+
+            FullTrack track = currentlyPlaying?.Item as FullTrack;
+            if (track != null)
+            {
+                CurrentlyPlaying = $"Currently playing: {track.Name} by {track.Artists[0].Name}";
             }
         }
 

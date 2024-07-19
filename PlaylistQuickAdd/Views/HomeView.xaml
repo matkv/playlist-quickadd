@@ -15,6 +15,6 @@
     <StackPanel Spacing="10">
         <TextBlock>Hello this is the homepage.</TextBlock>
         <TextBlock Text="{Binding LoggedInUserText , Mode=OneWay}" FontSize="20"/>
-        <ListBox ItemsSource="{Binding Playlists, Mode=OneWay}"></ListBox>
+        <TextBlock Text="{Binding CurrentlyPlaying , Mode=OneWay}" FontSize="20"/>
     </StackPanel>
 </Page>
