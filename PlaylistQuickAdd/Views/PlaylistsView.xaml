@@ -17,14 +17,17 @@
             <GridView ItemsSource="{x:Bind PlaylistsViewModel.Playlists, Mode=OneWay}">
                 <GridView.ItemTemplate>
                     <DataTemplate x:DataType="models:Playlist">
-                        <StackPanel Orientation="Vertical" Padding="15" >
-                            <Image Source="{x:Bind PlaylistCover}" Width="120" Height="120" />
-                            <RichTextBlock HorizontalTextAlignment="Center" VerticalAlignment="Center" >
-                                <Paragraph >
-                                    <Run Text="{x:Bind Title, Mode=OneWay}" FontWeight="Bold" />
-                                </Paragraph>
-                            </RichTextBlock> 
-                        </StackPanel>
+                        <RelativePanel>
+                            <CheckBox x:Name="CheckboxTest" />
+                            <StackPanel Orientation="Vertical" RelativePanel.RightOf="CheckboxTest" >
+                                <Image Source="{x:Bind PlaylistCover}" Width="120" Height="120" />
+                                <RichTextBlock HorizontalTextAlignment="Center" VerticalAlignment="Center" >
+                                    <Paragraph >
+                                        <Run Text="{x:Bind Title, Mode=OneWay}" FontWeight="Bold" />
+                                    </Paragraph>
+                                </RichTextBlock>
+                            </StackPanel>
+                        </RelativePanel>
                     </DataTemplate>
                 </GridView.ItemTemplate>
             </GridView>
