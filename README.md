@@ -8,6 +8,14 @@ Overall I also just wanted a (hopefully) long term C# pet project that gives me 
 
 This project is still in a very early stage and I'm changing my goals and ideas about it all the time.
 
+## Immediate goals / tasks
+
+- [ ] Building the basic functionality
+  - [ ] Creating / editing playlists
+  - [ ] Adding songs to multiple playlists comfortably
+  - [ ] Some way of going through all my songs / seeing which songs are "done" 
+- [ ] Creating basic UI that is connected nicely to the code behind
+
 ## Goals
 
 - Gain experience working with WinUI 3
