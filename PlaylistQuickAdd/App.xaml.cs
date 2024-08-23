@@ -62,10 +62,12 @@ namespace PlaylistQuickAdd
             serviceCollection.AddTransient<HomeView>();
             serviceCollection.AddTransient<PlaylistsView>();
             serviceCollection.AddTransient<SettingsView>();
+            serviceCollection.AddTransient<QuickAddView>();
 
             serviceCollection.AddTransient<HomeViewModel>();
             serviceCollection.AddTransient<PlaylistsViewModel>();
             serviceCollection.AddTransient<SettingsViewModel>();
+            serviceCollection.AddTransient<QuickAddViewModel>();
         }
 
         private Window m_window;
