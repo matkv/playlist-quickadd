@@ -77,12 +77,15 @@ namespace PlaylistQuickAdd.ViewModels
 
         private async Task ShowSpotifyPlayer()
         {
-            var currentlyPlaying = await Spotify.Client.Player.GetCurrentlyPlaying(new PlayerCurrentlyPlayingRequest(PlayerCurrentlyPlayingRequest.AdditionalTypes.All));
-
-            FullTrack track = currentlyPlaying?.Item as FullTrack;
-            if (track != null)
+            if (Spotify.Client != null)
             {
-                CurrentlyPlaying = $"Currently playing: {track.Name} by {track.Artists[0].Name}";
+                var currentlyPlaying = await Spotify.Client.Player.GetCurrentlyPlaying(new PlayerCurrentlyPlayingRequest(PlayerCurrentlyPlayingRequest.AdditionalTypes.All));
+
+                FullTrack track = currentlyPlaying?.Item as FullTrack;
+                if (track != null)
+                {
+                    CurrentlyPlaying = $"Currently playing: {track.Name} by {track.Artists[0].Name}";
+                }
             }
         }
 
