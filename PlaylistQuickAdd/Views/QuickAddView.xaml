@@ -14,5 +14,17 @@
 
     <StackPanel>
             <TextBlock Name="TestText" Text="Hello this is the quick add page" />
-        </StackPanel>
+
+        <ListView ItemsSource="{x:Bind QuickAddViewModel.Tracks, Mode=OneWay}">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="models:Track">
+                    <StackPanel Orientation="Horizontal">
+                        <!--<Image Source="{x:Bind AlbumCover}" Width="120" Height="120" />-->
+                        <TextBlock Text="{x:Bind Artist, Mode=OneWay}" FontWeight="Bold" />
+                        <TextBlock Text="{x:Bind Title, Mode=OneWay}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackPanel>
 </Page>
