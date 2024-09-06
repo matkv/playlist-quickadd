@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewmodels="using:PlaylistQuickAdd.ViewModels" xmlns:models="using:PlaylistQuickAdd.Models"
+    xmlns:views="using:PlaylistQuickAdd.Views"
     mc:Ignorable="d">
 
     <Page.DataContext>
@@ -31,7 +32,7 @@
             
         </SplitView.Pane>
         <SplitView.Content>
-            <TextBlock Text="Hello"></TextBlock>
+            <views:PlaylistsViewUserControl />
         </SplitView.Content>
     </SplitView>
     
