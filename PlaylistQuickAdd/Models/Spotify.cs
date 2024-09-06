@@ -97,7 +97,7 @@ namespace PlaylistQuickAdd.Models
             {
                 CodeChallenge = challenge,
                 CodeChallengeMethod = "S256",
-                Scope = [Scopes.PlaylistReadPrivate, Scopes.PlaylistReadCollaborative]
+                Scope = [Scopes.PlaylistReadPrivate, Scopes.PlaylistReadCollaborative, Scopes.UserLibraryRead, Scopes.UserLibraryModify]
             };
 
             var uri = request.ToUri();

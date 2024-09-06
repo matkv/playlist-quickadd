@@ -44,7 +44,22 @@ namespace PlaylistQuickAdd.ViewModels
 
         private void LoadSavedSongs()
         {
+            if (Tracks == null)
+                Tracks = [];
+            else if (Tracks.Count > 0)
+                return;
 
+            var test = Spotify.Client.Library.GetTracks().Result;
+
+            foreach (var track in Spotify.Client.Library.GetTracks().Result.Items)
+            {
+                var newTrack = new Track
+                {
+                    Title = track.Track.Name,
+                    Artist = track.Track.Artists[0].Name
+                };
+                Tracks.Add(newTrack);
+            }
         }
 
         public void SetupSharedDataService()
