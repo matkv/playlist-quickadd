@@ -55,6 +55,7 @@ namespace PlaylistQuickAdd.ViewModels
             {
                 var newTrack = new Track
                 {
+                    ID = track.Track.Id,
                     Title = track.Track.Name,
                     Artist = track.Track.Artists[0].Name,
                 };

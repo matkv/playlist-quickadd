@@ -20,7 +20,7 @@
         <ListView ItemsSource="{x:Bind QuickAddViewModel.Tracks, Mode=OneWay}">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="models:Track">
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal" Tapped="StackPanel_Tapped" Tag="{x:Bind ID}">
                         <Image Source="{x:Bind AlbumCover}" Width="50" Height="50" />
                         <TextBlock Text="{x:Bind Artist, Mode=OneWay}" FontWeight="Bold" />
                         <TextBlock Text="{x:Bind Title, Mode=OneWay}" />

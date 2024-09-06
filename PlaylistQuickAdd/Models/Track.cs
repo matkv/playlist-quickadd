@@ -15,9 +15,9 @@ namespace PlaylistQuickAdd.Models
 
         public string Artist { get; set; }
 
-
         public ImageSource AlbumCover { get; set; }
-        
+        public string ID { get; internal set; }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         public Track()

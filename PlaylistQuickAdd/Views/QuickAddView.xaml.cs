@@ -11,5 +11,10 @@ namespace PlaylistQuickAdd
         {
             this.InitializeComponent();
         }
+
+        private void StackPanel_Tapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+
+        }
     }
 }
