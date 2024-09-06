@@ -1,21 +1,50 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using PlaylistQuickAdd.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace PlaylistQuickAdd.ViewModels
 {
-    internal class QuickAddViewModel
+    internal class QuickAddViewModel : ObservableObject, IViewModel
     {
         public SharedDataService sharedDataService;
+
+        public Spotify Spotify
+        {
+            get => sharedDataService.Spotify; set
+            {
+                if (sharedDataService.Spotify != value)
+                {
+                    sharedDataService.Spotify = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public List<Track> Tracks
+        {
+            get => Spotify.SavedTracks; set
+            {
+                if (Spotify.SavedTracks != value)
+                {
+                    Spotify.SavedTracks = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         public QuickAddViewModel()
         {
             SetupSharedDataService();
+            LoadSavedSongs();
+        }
+
+        private void LoadSavedSongs()
+        {
+
         }
 
         public void SetupSharedDataService()

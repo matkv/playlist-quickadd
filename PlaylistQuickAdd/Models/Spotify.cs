@@ -16,6 +16,7 @@ namespace PlaylistQuickAdd.Models
         public string LoggedInUser { get; set; } // TEMP
         public List<string> Playlists { get; internal set; }
         public List<Playlist> PlaylistsWithImages { get; internal set; } // TODO rename
+        public List<Track> SavedTracks { get; internal set; }
 
         private readonly string redirectUriString;
         private readonly string credentialsPath;
