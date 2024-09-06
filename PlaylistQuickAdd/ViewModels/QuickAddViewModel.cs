@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Imaging;
 using PlaylistQuickAdd.Models;
 using System;
 using System.Collections.Generic;
@@ -49,15 +51,27 @@ namespace PlaylistQuickAdd.ViewModels
             else if (Tracks.Count > 0)
                 return;
 
-            var test = Spotify.Client.Library.GetTracks().Result;
-
             foreach (var track in Spotify.Client.Library.GetTracks().Result.Items)
             {
                 var newTrack = new Track
                 {
                     Title = track.Track.Name,
-                    Artist = track.Track.Artists[0].Name
+                    Artist = track.Track.Artists[0].Name,
                 };
+
+                var image = new Image();
+
+                if (track.Track.Album.Images.Count > 0)
+                {
+                    image.Source = new BitmapImage(new Uri(track.Track.Album.Images[0].Url)); // TEMP
+                }
+                else
+                {
+                    image.Source = new BitmapImage(new Uri("ms-appx:///Assets/Square150x150Logo.scale-200.png"));
+                }
+
+                newTrack.AlbumCover = image.Source;
+
                 Tracks.Add(newTrack);
             }
         }

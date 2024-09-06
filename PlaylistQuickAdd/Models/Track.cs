@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.UI.Xaml.Media;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -13,6 +14,9 @@ namespace PlaylistQuickAdd.Models
         public string Title { get; set; }
 
         public string Artist { get; set; }
+
+
+        public ImageSource AlbumCover { get; set; }
         
         public event PropertyChangedEventHandler PropertyChanged;
 

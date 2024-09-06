@@ -12,14 +12,15 @@
         <viewmodels:QuickAddViewModel x:Name="QuickAddViewModel" />
     </Page.DataContext>
 
+    <SplitView DisplayMode="Inline" IsPaneOpen="True" OpenPaneLength="400" >
+        <SplitView.Pane>
     <StackPanel>
-            <TextBlock Name="TestText" Text="Hello this is the quick add page" />
 
         <ListView ItemsSource="{x:Bind QuickAddViewModel.Tracks, Mode=OneWay}">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="models:Track">
                     <StackPanel Orientation="Horizontal">
-                        <!--<Image Source="{x:Bind AlbumCover}" Width="120" Height="120" />-->
+                        <Image Source="{x:Bind AlbumCover}" Width="50" Height="50" />
                         <TextBlock Text="{x:Bind Artist, Mode=OneWay}" FontWeight="Bold" />
                         <TextBlock Text="{x:Bind Title, Mode=OneWay}" />
                     </StackPanel>
@@ -27,4 +28,11 @@
             </ListView.ItemTemplate>
         </ListView>
     </StackPanel>
+            
+        </SplitView.Pane>
+        <SplitView.Content>
+            <TextBlock Text="Hello"></TextBlock>
+        </SplitView.Content>
+    </SplitView>
+    
 </Page>
