@@ -15,6 +15,18 @@ namespace PlaylistQuickAdd
         private void StackPanel_Tapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
 
+            var selectedSong = (sender as StackPanel).DataContext as Models.Track;
+
+            if (selectedSong != null)
+            {
+                var playlist = (DataContext as ViewModels.PlaylistsViewModel).Playlists;
+
+                if (playlist != null)
+                {
+                    //playlist.AddTrack(selectedSong);
+                }
+            }
+
         }
     }
 }

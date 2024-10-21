@@ -57,7 +57,7 @@ namespace PlaylistQuickAdd.ViewModels
 
                 var image = new Image();
 
-                if (playlist.Images.Count > 0)
+                if (playlist.Images?.Count > 0)
                     image.Source = new BitmapImage(new Uri(playlist.Images[0].Url)); // TEMP
                 else
                     image.Source = new BitmapImage(new Uri("ms-appx:///Assets/Square150x150Logo.scale-200.png"));
