@@ -42,10 +42,10 @@ namespace PlaylistQuickAdd.ViewModels
         public PlaylistsViewModel()
         {
             SetupSharedDataService();
-            _ = InitializeSpotify();    
+            _ = InitializePlaylists();    
         }
 
-        private async Task InitializeSpotify()
+        private async Task InitializePlaylists()
         {
             await LoadPlaylists();
         }

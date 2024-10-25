@@ -6,6 +6,8 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using PlaylistQuickAdd.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 
 namespace PlaylistQuickAdd.ViewModels
@@ -26,7 +28,7 @@ namespace PlaylistQuickAdd.ViewModels
             }
         }
 
-        public List<Track> Tracks
+        public ObservableCollection<Track> Tracks
         {
             get => Spotify.SavedTracks; set
             {
@@ -41,17 +43,25 @@ namespace PlaylistQuickAdd.ViewModels
         public QuickAddViewModel()
         {
             SetupSharedDataService();
+            _ = InitializeQuickAdd();
             LoadSavedSongs();
         }
 
-        private void LoadSavedSongs()
+        private async Task InitializeQuickAdd()
+        {
+            await LoadSavedSongs();
+        }
+
+        private async Task LoadSavedSongs()
         {
             if (Tracks == null)
                 Tracks = [];
             else if (Tracks.Count > 0)
                 return;
 
-            foreach (var track in Spotify.Client.Library.GetTracks().Result.Items)
+            var tracks = await Spotify.Client.Library.GetTracks();
+            
+            foreach (var track in tracks.Items)
             {
                 var newTrack = new Track
                 {
