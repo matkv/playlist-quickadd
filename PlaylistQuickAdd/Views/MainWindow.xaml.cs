@@ -1,11 +1,11 @@
+using System;
+using System.Linq;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
-using System;
-using System.Linq;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -20,20 +20,20 @@ namespace PlaylistQuickAdd
 
         public MainWindow()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             SetupUI();
         }
 
         private void SetupUI()
         {
             SetupAcrylicBackground();
-            this.AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
-            this.AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
+            AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+            AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
         }
 
         private void SetupAcrylicBackground()
         {
-            this.SystemBackdrop = new DesktopAcrylicBackdrop();
+            SystemBackdrop = new DesktopAcrylicBackdrop();
         }
 
         private void NavView_Loaded(object sender, RoutedEventArgs e)
@@ -48,10 +48,10 @@ namespace PlaylistQuickAdd
             Type navPageType,
             NavigationTransitionInfo transitionInfo)
         {
-            Type preNavPageType = ContentFrame.CurrentSourcePageType;
+            var preNavPageType = ContentFrame.CurrentSourcePageType;
 
             // Only navigate if the selected page isn't currently loaded.
-            if (navPageType is not null && !Type.Equals(preNavPageType, navPageType))
+            if (navPageType is not null && !Equals(preNavPageType, navPageType))
             {
                 ContentFrame.Navigate(navPageType, null, transitionInfo);
             }
@@ -86,7 +86,7 @@ namespace PlaylistQuickAdd
                 // Select the nav view item that corresponds to the page being navigated to.
                 NavView.SelectedItem = NavView.MenuItems
                             .OfType<NavigationViewItem>()
-                            .First(i => i.Tag.Equals(ContentFrame.SourcePageType.FullName.ToString()));
+                            .First(i => i.Tag.Equals(ContentFrame.SourcePageType.FullName));
 
                 NavView.Header =
                     ((NavigationViewItem)NavView.SelectedItem)?.Content?.ToString();

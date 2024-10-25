@@ -1,19 +1,18 @@
 ﻿using System.Threading.Tasks;
 
-namespace PlaylistQuickAdd.Models
+namespace PlaylistQuickAdd.Models;
+
+public class SharedDataService
 {
-    public class SharedDataService
+    public Spotify Spotify { get; set; }
+
+    public SharedDataService()
     {
-        public Spotify Spotify { get; set; }
+        Spotify = new Spotify();
+    }
 
-        public SharedDataService()
-        {
-            Spotify = new Spotify();
-        }
-
-        public async Task LoginSpotify()
-        {
-            await Spotify.Login();
-        }
+    public async Task LoginSpotify()
+    {
+        await Spotify.Login();
     }
 }
