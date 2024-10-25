@@ -20,7 +20,7 @@ namespace PlaylistQuickAdd.Models
         public ObservableCollection<Track> SavedTracks { get; internal set; }
 
         private readonly string redirectUriString;
-        private readonly string credentialsPath;
+        private string credentialsPath;
 
         private readonly string clientID = Environment.GetEnvironmentVariable("SPOTIFY_CLIENT_ID");
 
@@ -38,7 +38,16 @@ namespace PlaylistQuickAdd.Models
             redirectUriString = configuration.GetSection("RedirectURI").Value;
 
             CheckValidClientID();
-            credentialsPath = Path.Combine(Directory.GetCurrentDirectory(), "credentials.json");
+            SetupCredentialsPath();
+        }
+
+        private void SetupCredentialsPath()
+        {
+            var applicationDataDir = new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
+            var playlistQuickAddDir = Path.Combine(applicationDataDir.FullName, "PlaylistQuickAdd");
+            Directory.CreateDirectory(playlistQuickAddDir);
+
+            credentialsPath = Path.Combine(playlistQuickAddDir, "credentials.json");
         }
 
         private void CheckValidClientID()
