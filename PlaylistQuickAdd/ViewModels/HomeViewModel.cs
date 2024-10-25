@@ -68,7 +68,7 @@ namespace PlaylistQuickAdd.ViewModels
         {
             if (Spotify.Client != null)
             {
-                PrivateUser profile = await Spotify.Client.UserProfile.Current();
+                var profile = await Spotify.Client.UserProfile.Current();
                 Spotify.LoggedInUser = profile.DisplayName;
 
                 LoggedInUserText = $"The currently logged in user is {Spotify.LoggedInUser}";
@@ -81,7 +81,7 @@ namespace PlaylistQuickAdd.ViewModels
             {
                 var currentlyPlaying = await Spotify.Client.Player.GetCurrentlyPlaying(new PlayerCurrentlyPlayingRequest(PlayerCurrentlyPlayingRequest.AdditionalTypes.All));
 
-                FullTrack track = currentlyPlaying?.Item as FullTrack;
+                var track = currentlyPlaying?.Item as FullTrack;
                 if (track != null)
                 {
                     CurrentlyPlaying = $"Currently playing: {track.Name} by {track.Artists[0].Name}";

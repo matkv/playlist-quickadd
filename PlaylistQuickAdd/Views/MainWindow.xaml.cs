@@ -59,14 +59,13 @@ namespace PlaylistQuickAdd
 
         private void NavView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
-
             if (args.IsSettingsInvoked)
             {
                 NavView_Navigate(typeof(SettingsView), args.RecommendedNavigationTransitionInfo);
             }
             else if (args.InvokedItemContainer != null)
             {
-                Type navPageType = Type.GetType(args.InvokedItemContainer.Tag.ToString());
+                var navPageType = Type.GetType(args.InvokedItemContainer.Tag.ToString());
                 NavView_Navigate(navPageType, args.RecommendedNavigationTransitionInfo);
             }
         }

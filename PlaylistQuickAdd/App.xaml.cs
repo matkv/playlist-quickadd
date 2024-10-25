@@ -38,7 +38,7 @@ namespace PlaylistQuickAdd
             m_window = new MainWindow();            
             m_window.Activate();
 
-            Microsoft.UI.Dispatching.DispatcherQueue test = m_window.DispatcherQueue;
+            var test = m_window.DispatcherQueue;
 
             // Replace back with e.Arguments when https://github.com/microsoft/microsoft-ui-xaml/issues/3368 is fixed
             Microsoft.VisualStudio.TestPlatform.TestExecutor.UnitTestClient.Run(Environment.CommandLine);
