@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Media.Imaging;
 using PlaylistQuickAdd.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 namespace PlaylistQuickAdd.ViewModels
@@ -26,7 +27,7 @@ namespace PlaylistQuickAdd.ViewModels
             }
         }
 
-        public List<Playlist> Playlists
+        public ObservableCollection<Playlist> Playlists
         {
             get => Spotify.PlaylistsWithImages; set
             {
@@ -41,7 +42,12 @@ namespace PlaylistQuickAdd.ViewModels
         public PlaylistsViewModel()
         {
             SetupSharedDataService();
-            LoadPlaylists();
+            _ = InitializeSpotify();    
+        }
+
+        private async Task InitializeSpotify()
+        {
+            await LoadPlaylists();
         }
 
         private async Task LoadPlaylists()
@@ -51,7 +57,9 @@ namespace PlaylistQuickAdd.ViewModels
             else if (Playlists.Count > 0)
                 return;
 
-            foreach (var playlist in Spotify.Client.Playlists.CurrentUsers().Result.Items)
+            var playlists = await Spotify.Client.Playlists.CurrentUsers();
+            
+            foreach (var playlist in playlists.Items)
             {
                 var newPlaylist = new Playlist(playlist.Name);
 
@@ -65,6 +73,8 @@ namespace PlaylistQuickAdd.ViewModels
                 newPlaylist.PlaylistCover = image.Source;
                 Playlists.Add(newPlaylist);
             }
+
+            return;
         }
 
         public void SetupSharedDataService()

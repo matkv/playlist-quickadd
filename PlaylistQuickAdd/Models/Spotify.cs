@@ -4,6 +4,7 @@ using SpotifyAPI.Web;
 using SpotifyAPI.Web.Auth;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -15,7 +16,7 @@ namespace PlaylistQuickAdd.Models
 
         public string LoggedInUser { get; set; } // TEMP
         public List<string> Playlists { get; internal set; }
-        public List<Playlist> PlaylistsWithImages { get; internal set; } // TODO rename
+        public ObservableCollection<Playlist> PlaylistsWithImages { get; internal set; } // TODO rename
         public List<Track> SavedTracks { get; internal set; }
 
         private readonly string redirectUriString;

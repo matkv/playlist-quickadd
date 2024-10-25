@@ -7,7 +7,7 @@ namespace PlaylistQuickAdd.Tests
     public class PlaylistQuickAddTests
     {
         [TestMethod]
-        public async Task ReturnTrue()
+        public void ReturnTrue()
         {
             // TEMP
             Assert.IsTrue(true);
