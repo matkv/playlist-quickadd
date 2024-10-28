@@ -89,7 +89,7 @@ namespace PlaylistQuickAdd.Models
         {
             var (verifier, challenge) = PKCEUtil.GenerateCodes();
 
-            var redirectUri = new Uri(this.redirectUriString);
+            var redirectUri = new Uri(redirectUriString);
 
             await server.Start();
             server.AuthorizationCodeReceived += async (sender, response) =>

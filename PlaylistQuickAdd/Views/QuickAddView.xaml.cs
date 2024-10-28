@@ -9,7 +9,7 @@ namespace PlaylistQuickAdd.Views
     {
         public QuickAddView()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         private void StackPanel_Tapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)

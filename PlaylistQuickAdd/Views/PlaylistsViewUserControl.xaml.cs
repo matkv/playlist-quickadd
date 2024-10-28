@@ -9,7 +9,7 @@ namespace PlaylistQuickAdd.Views
     {
         public PlaylistsViewUserControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }

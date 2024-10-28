@@ -6,14 +6,14 @@ using Microsoft.UI.Xaml.Controls;
 namespace PlaylistQuickAdd
 {
     /// <summary>
-    /// An empty page that can be used on its own or navi²³gated to within a Frame.
+    /// An empty page that can be used on its own or naviï¿½ï¿½gated to within a Frame.
     /// </summary>
     public sealed partial class HomeView : Page
     {
 
         public HomeView()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }
