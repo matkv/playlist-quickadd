@@ -1,7 +1,6 @@
-﻿namespace PlaylistQuickAdd.ViewModels
+﻿namespace PlaylistQuickAdd.ViewModels;
+
+public interface IViewModel
 {
-    public interface IViewModel
-    {
-        public void SetupSharedDataService();
-    }
+    public void SetupSharedDataService();
 }

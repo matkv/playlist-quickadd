@@ -1,16 +1,15 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace PlaylistQuickAdd.Tests
+namespace PlaylistQuickAdd.Tests;
+
+[TestClass]
+public class PlaylistQuickAddTests
 {
-    [TestClass]
-    public class PlaylistQuickAddTests
+    [TestMethod]
+    public void ReturnTrue()
     {
-        [TestMethod]
-        public void ReturnTrue()
-        {
-            // TEMP
-            Assert.IsTrue(true);
-        }
+        // TEMP
+        Assert.IsTrue(true);
     }
 }

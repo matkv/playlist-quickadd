@@ -11,86 +11,85 @@ using PlaylistQuickAdd.Views;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace PlaylistQuickAdd
+namespace PlaylistQuickAdd;
+
+/// <summary>
+/// An empty window that can be used on its own or navigated to within a Frame.
+/// </summary>
+public sealed partial class MainWindow : Window
 {
-    /// <summary>
-    /// An empty window that can be used on its own or navigated to within a Frame.
-    /// </summary>
-    public sealed partial class MainWindow : Window
+
+    public MainWindow()
     {
+        InitializeComponent();
+        SetupUI();
+    }
 
-        public MainWindow()
+    private void SetupUI()
+    {
+        SetupAcrylicBackground();
+        AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+        AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
+    }
+
+    private void SetupAcrylicBackground()
+    {
+        SystemBackdrop = new DesktopAcrylicBackdrop();
+    }
+
+    private void NavView_Loaded(object sender, RoutedEventArgs e)
+    {
+        ContentFrame.Navigated += On_Navigated;
+        NavView.SelectedItem = NavView.MenuItems[0];
+
+        NavView_Navigate(typeof(HomeView), new EntranceNavigationTransitionInfo());
+    }
+
+    private void NavView_Navigate(
+        Type navPageType,
+        NavigationTransitionInfo transitionInfo)
+    {
+        var preNavPageType = ContentFrame.CurrentSourcePageType;
+
+        // Only navigate if the selected page isn't currently loaded.
+        if (navPageType is not null && !Equals(preNavPageType, navPageType))
         {
-            InitializeComponent();
-            SetupUI();
+            ContentFrame.Navigate(navPageType, null, transitionInfo);
         }
+    }
 
-        private void SetupUI()
+    private void NavView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
+    {
+        if (args.IsSettingsInvoked)
         {
-            SetupAcrylicBackground();
-            AppWindow.TitleBar.ExtendsContentIntoTitleBar = true;
-            AppWindow.TitleBar.ButtonBackgroundColor = Colors.Transparent;
+            NavView_Navigate(typeof(SettingsView), args.RecommendedNavigationTransitionInfo);
         }
-
-        private void SetupAcrylicBackground()
+        else if (args.InvokedItemContainer != null)
         {
-            SystemBackdrop = new DesktopAcrylicBackdrop();
+            var navPageType = Type.GetType(args.InvokedItemContainer.Tag.ToString());
+            NavView_Navigate(navPageType, args.RecommendedNavigationTransitionInfo);
         }
+    }
 
-        private void NavView_Loaded(object sender, RoutedEventArgs e)
+    private void On_Navigated(object sender, NavigationEventArgs e)
+    {
+        NavView.IsBackEnabled = ContentFrame.CanGoBack;
+
+        if (ContentFrame.SourcePageType == typeof(SettingsView))
         {
-            ContentFrame.Navigated += On_Navigated;
-            NavView.SelectedItem = NavView.MenuItems[0];
-
-            NavView_Navigate(typeof(HomeView), new EntranceNavigationTransitionInfo());
+            // SettingsItem is not part of NavView.MenuItems, and doesn't have a Tag.
+            NavView.SelectedItem = (NavigationViewItem)NavView.SettingsItem;
+            NavView.Header = "Settings";
         }
-
-        private void NavView_Navigate(
-            Type navPageType,
-            NavigationTransitionInfo transitionInfo)
+        else if (ContentFrame.SourcePageType != null)
         {
-            var preNavPageType = ContentFrame.CurrentSourcePageType;
+            // Select the nav view item that corresponds to the page being navigated to.
+            NavView.SelectedItem = NavView.MenuItems
+                .OfType<NavigationViewItem>()
+                .First(i => i.Tag.Equals(ContentFrame.SourcePageType.FullName));
 
-            // Only navigate if the selected page isn't currently loaded.
-            if (navPageType is not null && !Equals(preNavPageType, navPageType))
-            {
-                ContentFrame.Navigate(navPageType, null, transitionInfo);
-            }
-        }
-
-        private void NavView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
-        {
-            if (args.IsSettingsInvoked)
-            {
-                NavView_Navigate(typeof(SettingsView), args.RecommendedNavigationTransitionInfo);
-            }
-            else if (args.InvokedItemContainer != null)
-            {
-                var navPageType = Type.GetType(args.InvokedItemContainer.Tag.ToString());
-                NavView_Navigate(navPageType, args.RecommendedNavigationTransitionInfo);
-            }
-        }
-
-        private void On_Navigated(object sender, NavigationEventArgs e)
-        {
-            NavView.IsBackEnabled = ContentFrame.CanGoBack;
-
-            if (ContentFrame.SourcePageType == typeof(SettingsView))
-            {
-                // SettingsItem is not part of NavView.MenuItems, and doesn't have a Tag.
-                NavView.SelectedItem = (NavigationViewItem)NavView.SettingsItem;
-                NavView.Header = "Settings";
-            }
-            else if (ContentFrame.SourcePageType != null)
-            {
-                // Select the nav view item that corresponds to the page being navigated to.
-                NavView.SelectedItem = NavView.MenuItems
-                            .OfType<NavigationViewItem>()
-                            .First(i => i.Tag.Equals(ContentFrame.SourcePageType.FullName));
-
-                NavView.Header =
-                    ((NavigationViewItem)NavView.SelectedItem)?.Content?.ToString();
-            }
+            NavView.Header =
+                ((NavigationViewItem)NavView.SelectedItem)?.Content?.ToString();
         }
     }
 }

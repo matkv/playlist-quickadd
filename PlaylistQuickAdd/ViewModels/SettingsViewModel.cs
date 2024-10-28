@@ -3,35 +3,32 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using PlaylistQuickAdd.Models;
 
-namespace PlaylistQuickAdd.ViewModels
+namespace PlaylistQuickAdd.ViewModels;
+
+public class SettingsViewModel : ObservableObject, IViewModel
 {
-    public class SettingsViewModel : ObservableObject, IViewModel
+    public SharedDataService sharedDataService;
+
+    public Spotify Spotify
     {
-        public SharedDataService sharedDataService;
-
-        public Spotify Spotify
+        get => sharedDataService.Spotify; set
         {
-            get => sharedDataService.Spotify; set
-            {
-                if (sharedDataService.Spotify != value)
-                {
-                    sharedDataService.Spotify = value;
-                    OnPropertyChanged();
-                }
-            }
+            if (sharedDataService.Spotify == value) return;
+            sharedDataService.Spotify = value;
+            OnPropertyChanged();
         }
+    }
 
-        public SettingsViewModel()
-        {
-            SetupSharedDataService();            
-        }
+    public SettingsViewModel()
+    {
+        SetupSharedDataService();            
+    }
 
-        public void SetupSharedDataService()
-        {
-            var app = (App)Application.Current;
+    public void SetupSharedDataService()
+    {
+        var app = (App)Application.Current;
 
-            var serviceProvider = app.ServiceProvider;
-            sharedDataService = serviceProvider.GetService<SharedDataService>();
-        }
+        var serviceProvider = app.ServiceProvider;
+        sharedDataService = serviceProvider.GetService<SharedDataService>();
     }
 }
