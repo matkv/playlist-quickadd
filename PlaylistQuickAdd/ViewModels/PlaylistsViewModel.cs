@@ -5,7 +5,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 using PlaylistQuickAdd.Models;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
@@ -13,17 +12,15 @@ namespace PlaylistQuickAdd.ViewModels;
 
 public class PlaylistsViewModel : ObservableObject, IViewModel
 {
-    public SharedDataService sharedDataService;
+    private SharedDataService _sharedDataService;
 
     public Spotify Spotify
     {
-        get => sharedDataService.Spotify; set
+        get => _sharedDataService.Spotify; set
         {
-            if (sharedDataService.Spotify != value)
-            {
-                sharedDataService.Spotify = value;
-                OnPropertyChanged();
-            }
+            if (_sharedDataService.Spotify == value) return;
+            _sharedDataService.Spotify = value;
+            OnPropertyChanged();
         }
     }
 
@@ -31,11 +28,9 @@ public class PlaylistsViewModel : ObservableObject, IViewModel
     {
         get => Spotify.PlaylistsWithImages; set
         {
-            if (Spotify.PlaylistsWithImages != value)
-            {
-                Spotify.PlaylistsWithImages = value;
-                OnPropertyChanged();
-            }
+            if (Spotify.PlaylistsWithImages == value) return;
+            Spotify.PlaylistsWithImages = value;
+            OnPropertyChanged();
         }
     }
 
@@ -82,6 +77,6 @@ public class PlaylistsViewModel : ObservableObject, IViewModel
         var app = (App)Application.Current;
 
         var serviceProvider = app.ServiceProvider;
-        sharedDataService = serviceProvider.GetService<SharedDataService>();
+        _sharedDataService = serviceProvider.GetService<SharedDataService>();
     }
 }

@@ -3,25 +3,21 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using PlaylistQuickAdd.Models;
 using SpotifyAPI.Web;
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace PlaylistQuickAdd.ViewModels;
 
 internal class HomeViewModel : ObservableObject, IViewModel
 {
-    public SharedDataService sharedDataService;
+    private SharedDataService _sharedDataService;
 
     public Spotify Spotify
     {
-        get => sharedDataService.Spotify; set
+        get => _sharedDataService.Spotify; set
         {
-            if (sharedDataService.Spotify != value)
-            {
-                sharedDataService.Spotify = value;
-                OnPropertyChanged();
-            }
+            if (_sharedDataService.Spotify == value) return;
+            _sharedDataService.Spotify = value;
+            OnPropertyChanged();
         }
     }
 
@@ -94,6 +90,6 @@ internal class HomeViewModel : ObservableObject, IViewModel
         var app = (App)Application.Current;
 
         var serviceProvider = app.ServiceProvider;
-        sharedDataService = serviceProvider.GetService<SharedDataService>();
+        _sharedDataService = serviceProvider.GetService<SharedDataService>();
     }
 }

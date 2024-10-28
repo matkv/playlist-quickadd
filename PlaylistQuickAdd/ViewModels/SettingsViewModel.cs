@@ -7,14 +7,14 @@ namespace PlaylistQuickAdd.ViewModels;
 
 public class SettingsViewModel : ObservableObject, IViewModel
 {
-    public SharedDataService sharedDataService;
+    private SharedDataService _sharedDataService;
 
     public Spotify Spotify
     {
-        get => sharedDataService.Spotify; set
+        get => _sharedDataService.Spotify; set
         {
-            if (sharedDataService.Spotify == value) return;
-            sharedDataService.Spotify = value;
+            if (_sharedDataService.Spotify == value) return;
+            _sharedDataService.Spotify = value;
             OnPropertyChanged();
         }
     }
@@ -29,6 +29,6 @@ public class SettingsViewModel : ObservableObject, IViewModel
         var app = (App)Application.Current;
 
         var serviceProvider = app.ServiceProvider;
-        sharedDataService = serviceProvider.GetService<SharedDataService>();
+        _sharedDataService = serviceProvider.GetService<SharedDataService>();
     }
 }
