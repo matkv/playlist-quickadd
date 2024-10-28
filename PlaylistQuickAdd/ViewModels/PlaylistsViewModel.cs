@@ -53,23 +53,22 @@ public class PlaylistsViewModel : ObservableObject, IViewModel
             return;
 
         var playlists = await Spotify.Client.Playlists.CurrentUsers();
-            
+        if (playlists.Items == null) return;
+        
         foreach (var playlist in playlists.Items)
         {
             var newPlaylist = new Playlist(playlist.Name);
 
-            var image = new Image();
-
-            if (playlist.Images?.Count > 0)
-                image.Source = new BitmapImage(new Uri(playlist.Images[0].Url)); // TEMP
-            else
-                image.Source = new BitmapImage(new Uri("ms-appx:///Assets/Square150x150Logo.scale-200.png"));
+            var image = new Image
+            {
+                Source = playlist.Images?.Count > 0
+                    ? new BitmapImage(new Uri(playlist.Images[0].Url))
+                    : new BitmapImage(new Uri("ms-appx:///Assets/Square150x150Logo.scale-200.png")) // TEMP
+            };
 
             newPlaylist.PlaylistCover = image.Source;
             Playlists.Add(newPlaylist);
         }
-
-        return;
     }
 
     public void SetupSharedDataService()

@@ -39,7 +39,6 @@ internal class QuickAddViewModel : ObservableObject, IViewModel
     {
         SetupSharedDataService();
         _ = InitializeQuickAdd();
-        LoadSavedSongs();
     }
 
     private async Task InitializeQuickAdd()
@@ -55,26 +54,23 @@ internal class QuickAddViewModel : ObservableObject, IViewModel
             return;
 
         var tracks = await Spotify.Client.Library.GetTracks();
-            
+
+        if (tracks.Items == null) return;
         foreach (var track in tracks.Items)
         {
             var newTrack = new Track
             {
                 ID = track.Track.Id,
                 Title = track.Track.Name,
-                Artist = track.Track.Artists[0].Name,
+                Artist = track.Track.Artists[0].Name
             };
 
-            var image = new Image();
-
-            if (track.Track.Album.Images.Count > 0)
+            var image = new Image
             {
-                image.Source = new BitmapImage(new Uri(track.Track.Album.Images[0].Url)); // TEMP
-            }
-            else
-            {
-                image.Source = new BitmapImage(new Uri("ms-appx:///Assets/Square150x150Logo.scale-200.png"));
-            }
+                Source = track.Track.Album.Images.Count > 0
+                    ? new BitmapImage(new Uri(track.Track.Album.Images[0].Url))
+                    : new BitmapImage(new Uri("ms-appx:///Assets/Square150x150Logo.scale-200.png")) // TEMP
+            };
 
             newTrack.AlbumCover = image.Source;
 

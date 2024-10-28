@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using PlaylistQuickAdd.Models;
@@ -34,15 +35,15 @@ internal class HomeViewModel : ObservableObject, IViewModel
         }
     }
 
-    private string tempCurrentlyPlaying;
+    private string _tempCurrentlyPlaying;
     public string CurrentlyPlaying
     {
-        get => tempCurrentlyPlaying;
+        get => _tempCurrentlyPlaying;
         set
         {
-            if (tempCurrentlyPlaying != value)
+            if (!string.Equals(_tempCurrentlyPlaying, value, StringComparison.Ordinal))
             {
-                tempCurrentlyPlaying = value;
+                _tempCurrentlyPlaying = value;
             }
             OnPropertyChanged();
         }
@@ -75,10 +76,9 @@ internal class HomeViewModel : ObservableObject, IViewModel
     {
         if (Spotify.Client != null)
         {
-            var currentlyPlaying = await Spotify.Client.Player.GetCurrentlyPlaying(new PlayerCurrentlyPlayingRequest(PlayerCurrentlyPlayingRequest.AdditionalTypes.All));
+            var currentlyPlaying = await Spotify.Client.Player.GetCurrentlyPlaying(new PlayerCurrentlyPlayingRequest());
 
-            var track = currentlyPlaying?.Item as FullTrack;
-            if (track != null)
+            if (currentlyPlaying?.Item is FullTrack track)
             {
                 CurrentlyPlaying = $"Currently playing: {track.Name} by {track.Artists[0].Name}";
             }
