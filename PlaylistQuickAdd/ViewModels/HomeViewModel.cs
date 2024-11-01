@@ -5,13 +5,17 @@ using Microsoft.UI.Xaml;
 using PlaylistQuickAdd.Models;
 using SpotifyAPI.Web;
 using System.Threading.Tasks;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Imaging;
+using Image = Microsoft.UI.Xaml.Controls.Image;
 
 namespace PlaylistQuickAdd.ViewModels;
 
 internal class HomeViewModel : ObservableObject, IViewModel
 {
     private SharedDataService _sharedDataService;
-
+    private DispatcherTimer _refreshTimer;
+    
     public Spotify Spotify
     {
         get => _sharedDataService.Spotify; set
@@ -49,7 +53,22 @@ internal class HomeViewModel : ObservableObject, IViewModel
         }
     }
 
-    public async Task InitializeAsync()
+    private ImageSource _currentAlbumCover;
+
+    public ImageSource CurrentAlbumCover
+    {
+        get => _currentAlbumCover;
+        
+        set
+        {
+            if (_currentAlbumCover != value)
+                _currentAlbumCover = value;
+            
+            OnPropertyChanged();
+        }
+    }
+
+    private async Task InitializeAsync()
     {
         await ShowUserData();
         await ShowSpotifyPlayer();
@@ -81,6 +100,14 @@ internal class HomeViewModel : ObservableObject, IViewModel
             if (currentlyPlaying?.Item is FullTrack track)
             {
                 CurrentlyPlaying = $"Currently playing: {track.Name} by {track.Artists[0].Name}";
+
+                var image = new Image
+                {
+                    Source = track.Album.Images?.Count > 0 ? new BitmapImage(new Uri(track.Album.Images[0].Url)) 
+                    : new BitmapImage(new Uri("ms-appx:///Assets/Square150x150Logo.scale-200.png")) // TEMP
+                };
+                
+                CurrentAlbumCover = image.Source;
             }
         }
     }
@@ -91,5 +118,26 @@ internal class HomeViewModel : ObservableObject, IViewModel
 
         var serviceProvider = app.ServiceProvider;
         _sharedDataService = serviceProvider.GetService<SharedDataService>();
+    }
+
+    public void StartTimer()
+    {
+        if (_refreshTimer == null)
+        {
+            _refreshTimer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(2)
+            };
+            _refreshTimer.Tick += async (sender, e) => await ShowSpotifyPlayer();
+        }
+
+        _refreshTimer.Start(); 
+    }
+
+    public void StopTimer()
+    {
+        if (_refreshTimer == null) return;
+        _refreshTimer.Stop();
+        _refreshTimer = null;
     }
 }

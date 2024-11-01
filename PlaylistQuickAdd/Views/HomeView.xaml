@@ -15,5 +15,6 @@
         <TextBlock>Hello this is the homepage.</TextBlock>
         <TextBlock Text="{Binding LoggedInUserText , Mode=OneWay}" FontSize="20"/>
         <TextBlock Text="{Binding CurrentlyPlaying , Mode=OneWay}" FontSize="20"/>
+        <Image Source="{Binding Path=CurrentAlbumCover, Mode=OneWay}" Height="300" Width="300"></Image>
     </StackPanel>
 </Page>
