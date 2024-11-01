@@ -122,6 +122,9 @@ internal class HomeViewModel : ObservableObject, IViewModel
 
     public void StartTimer()
     {
+        // TODO figure out if there is some way to get an event or something when the 
+        // song changes instead of constantly pinging the API
+        
         if (_refreshTimer == null)
         {
             _refreshTimer = new DispatcherTimer
