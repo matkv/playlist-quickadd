@@ -101,6 +101,8 @@ internal class HomeViewModel : ObservableObject, IViewModel
             {
                 CurrentlyPlaying = $"Currently playing: {track.Name} by {track.Artists[0].Name}";
 
+                // TODO probably remove the constantly updating image again
+                
                 var image = new Image
                 {
                     Source = track.Album.Images?.Count > 0 ? new BitmapImage(new Uri(track.Album.Images[0].Url)) 
@@ -124,6 +126,10 @@ internal class HomeViewModel : ObservableObject, IViewModel
     {
         // TODO figure out if there is some way to get an event or something when the 
         // song changes instead of constantly pinging the API
+        
+        // not necessarily important to the functionality of playlist-quickadd though
+        // I probably just want some way of starting the song in the actual Spotify client
+        // from within playlist-quickadd - that should be enough and not constantly ping the API
         
         if (_refreshTimer == null)
         {
