@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace PlaylistQuickAdd.Views;
 
-public sealed partial class QuickAddView : Page
+public sealed partial class QuickAddView
 {
     public QuickAddView()
     {

@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Page
-    x:Class="PlaylistQuickAdd.HomeView"
+    x:Class="PlaylistQuickAdd.Views.HomeView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:local="using:PlaylistQuickAdd" 
     xmlns:viewmodels="using:PlaylistQuickAdd.ViewModels" xmlns:models="using:PlaylistQuickAdd.Models"
     mc:Ignorable="d">
 
