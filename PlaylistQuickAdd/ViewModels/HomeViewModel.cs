@@ -137,7 +137,8 @@ internal class HomeViewModel : ObservableObject, IViewModel
             {
                 Interval = TimeSpan.FromSeconds(2)
             };
-            _refreshTimer.Tick += async (sender, e) => await ShowSpotifyPlayer();
+            
+            // _refreshTimer.Tick += async (sender, e) => await ShowSpotifyPlayer();
         }
 
         _refreshTimer.Start(); 
